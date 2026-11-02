@@ -1,0 +1,133 @@
+/* Giggleton — generated from tokens.json */
+:root, [data-theme="linen"] {
+  --cloth: #f1e9d8; /* Page background: the aida cloth. The grid is drawn over it in grid. Every text token names it as a ground. */
+  --cloth-panel: #f7f1e4; /* Stitched panels: cards, the post column, the frame around a chart. Plain, no grid, so long text reads easily. Framed by a stitch border in a thread colour. A chart inside the frame keeps its own background. */
+  --cloth-sunken: #e6dcc6; /* Inset wells inside a panel: blockquotes, code blocks, inline code. ink-muted holds 4.9:1 on it in Linen; thread-brown does not, so brown is never text here. */
+  --grid: #e3d9c3; /* The 1px aida grid over cloth, every 8px (stitch). Decorative only; it carries no meaning and never appears inside a panel. */
+  --ink: #2f2a33; /* Body copy, titles and the darkest thread on cloth, cloth-panel and cloth-sunken (10:1 or better in both themes). Also the outline thread in pixel art. */
+  --ink-muted: #625a66; /* Dates, captions, vocations under a name; on cloth, cloth-panel and cloth-sunken. 4.9:1 at worst in Linen, 6.7:1 in Midnight. */
+  --thread-red: #a3303d; /* The sampler's first thread: the masthead name, the stitch border on panels and figures, the focus ring. Readable as text on cloth and cloth-panel (5.7:1 Linen, 5.4:1 Midnight). Never applied inside a chart. */
+  --thread-blue: #34547f; /* Second thread: links, nav tabs, the greeting, Pica's sheen. As text 6.4:1 in Linen and 6.4:1 in Midnight on cloth-panel. */
+  --thread-green: #3f6a3c; /* Third thread: Scales' shell, kickers and tags. As text 5.2:1 in Linen on cloth, 7.5:1 in Midnight on cloth-panel. */
+  --thread-gold: #d9a441; /* Fourth thread: Pica's beak and eye, the lit window of the home mark, a highlighted pixel. A fill; text on it is on-gold; gold text is thread-gold-text. */
+  --thread-gold-text: #7a5a12; /* Gold as text, on cloth and cloth-panel only: 5.3:1 in Linen, 7.6:1 in Midnight. */
+  --thread-brown: #8b5a3c; /* Fifth thread: Giggly's body, Scales' head and legs. As text only on cloth and cloth-panel (4.8:1 Linen), never on cloth-sunken. */
+  --on-thread: #f7f1e4; /* Text and the unstitched pixels on thread-red, thread-blue, thread-green and thread-brown fills: the active nav tab, a button. 5.2:1 or better in both themes. */
+  --on-gold: #2f2a33; /* Text on thread-gold only: 6.2:1 in Linen, 8:1 in Midnight. */
+  --link: var(--thread-blue); /* Links on cloth and cloth-panel, underlined with a 2px dotted line (a running stitch), offset 3px. */
+  --focus: var(--thread-red); /* The 2px solid focus ring, offset 2px, on links, tabs, buttons and the theme toggle. 5.4:1 or better on cloth and cloth-panel in both themes. */
+}
+[data-theme="midnight"] {
+  --cloth: #1f2435;
+  --cloth-panel: #272d42;
+  --cloth-sunken: #171b29;
+  --grid: #2b324a;
+  --ink: #f1e9d8;
+  --ink-muted: #b9b3c4;
+  --thread-red: #e68894;
+  --thread-blue: #93b4e2;
+  --thread-green: #a2cc94;
+  --thread-gold: #e6bc5a;
+  --thread-gold-text: #e6bc5a;
+  --thread-brown: #d1a07a;
+  --on-thread: #1f2435;
+  --on-gold: #1f2435;
+  --link: var(--thread-blue);
+  --focus: var(--thread-red);
+}
+:root {
+  --stitch: 8px; /* One aida square: the grid pitch, the size of one X stitch, the width of a stitch border. Everything of the site's own aligns to it; charts are exempt. */
+  --space-1: 8px; /* One stitch: the gap between a tag's dot and its word; between caption and figure. */
+  --space-2: 16px; /* Two stitches: inside nav tabs; between a title and its text. */
+  --space-3: 24px; /* Three stitches: panel padding on small panels; paragraph spacing. */
+  --space-4: 32px; /* Four stitches: panel padding on the post column; gaps between resident panels. */
+  --space-6: 48px; /* Six stitches: between posts in the list; the page's side gutters. */
+  --space-8: 64px; /* Eight stitches: between the masthead and the page; above the footer. */
+  --measure: 36em; /* The reading column's maximum width in body ems. */
+  --radius-none: 0px; /* Every corner. Stitches are square; nothing in the system is rounded, pixel art and charts included. */
+  --stitch-thread: 2px; /* The stroke of each X in a stitch border, on an 8px cell. */
+  --running-stitch: 2px dotted; /* Link underlines and the rule between posts: a dotted 2px line reads as a running stitch. */
+  --font-display: "Silkscreen", "Courier New", monospace;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Fira Code", "SF Mono", Menlo, Consolas, monospace;
+  --text-masthead: 400 28px/32px var(--font-display); /* The masthead name in thread-red, uppercase. Nowhere else. */
+  --text-display: 400 24px/40px var(--font-display); /* The home page greeting, uppercase, in thread-blue. Two lines at most. */
+  --text-title: 400 18px/26px var(--font-display); /* A post's title on its page and in the list; a resident's name on their card. Written in sentence case, shown as capitals (the face has no lowercase), in ink. */
+  --text-heading: 400 14px/22px var(--font-display); /* Section headings inside a post, uppercase, in ink, with a stitch of space-2 above. */
+  --text-label: 400 11px/16px var(--font-display); /* Nav tabs, kickers and entry numbers; uppercase, in thread-blue, thread-green or ink-muted. Not used inside charts. */
+  --text-lede: 400 19px/30px var(--font-body); /* A post's first paragraph and a resident's one-line vocation, in ink. */
+  --text-body: 400 17px/28px var(--font-body); /* Paragraphs on cloth-panel, measure at most 36em, in ink. */
+  --text-small: 700 14px/20px var(--font-body); /* Buttons and the 'Read on' link; ink or link. */
+  --text-caption: 400 13px/18px var(--font-body); /* Figure captions, bylines and the vocation under a name, in ink-muted. */
+  --text-code: 400 14.5px/24px var(--font-mono); /* Code blocks and inline code on cloth-sunken, in ink; ligatures off. */
+}
+.masthead {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.display {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 40px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.heading {
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+.label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+.lede {
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: 30px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.small {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.caption {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.code {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}

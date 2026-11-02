@@ -10,18 +10,11 @@ defmodule GiggletonWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", GiggletonWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live_session :site do
+      live "/", HomeLive
+    end
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", GiggletonWeb do
-  #   pipe_through :api
-  # end
 end

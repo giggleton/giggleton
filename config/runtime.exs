@@ -33,7 +33,9 @@ if config_env() == :dev do
         ~r"priv/static/(?!uploads/).*\.(js|css|png|jpeg|jpg|gif|svg)$"E,
         # Router, Controllers, LiveViews and LiveComponents
         ~r"lib/giggleton_web/router\.ex$"E,
-        ~r"lib/giggleton_web/(controllers|live|components)/.*\.(ex|heex)$"E
+        ~r"lib/giggleton_web/(controllers|live|components)/.*\.(ex|heex)$"E,
+        # Stitch patterns, compiled into GiggletonWeb.PixelArt
+        ~r"priv/patterns/.*\.txt$"E
       ]
     ]
 end

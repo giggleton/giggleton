@@ -1,0 +1,119 @@
+/* The site's own components: a cross-stitch sampler on an 8px aida grid.
+   Every colour, size and face comes from tokens.css. Nothing here selects
+   into a chart: charts keep the colours and fonts of their Giggly theme. */
+
+html { color-scheme: light; }
+html[data-theme="midnight"] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background-color: var(--cloth);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--stitch) var(--stitch);
+  color: var(--ink);
+  font: var(--text-body);
+}
+
+a { color: var(--link); text-decoration: underline dotted 2px; text-underline-offset: 3px; }
+a:hover { text-decoration-style: solid; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { left: var(--space-2); top: var(--space-2); z-index: 10; background: var(--cloth-panel); padding: var(--space-1) var(--space-2); }
+
+/* ---- Stitched panel: a ring of 8px X stitches outside the panel's edge ---- */
+
+.stitched { position: relative; background: var(--cloth-panel); }
+.stitched::before {
+  --x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5' stroke='black' stroke-width='1.8' stroke-linecap='square'/%3E%3C/svg%3E");
+  content: "";
+  position: absolute;
+  inset: -12px;
+  padding: var(--stitch);
+  background: var(--thread-red);
+  pointer-events: none;
+  -webkit-mask: var(--x) 0 0 / var(--stitch) var(--stitch) repeat, linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: source-in, xor;
+  mask: var(--x) 0 0 / var(--stitch) var(--stitch) repeat, linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: intersect, exclude, add;
+}
+.stitched.blue::before { background: var(--thread-blue); }
+.stitched.green::before { background: var(--thread-green); }
+
+/* ---- Pixel art: patterns render as rects, one class per thread ---- */
+
+.pixel { display: block; flex: none; image-rendering: pixelated; }
+.px-k { fill: var(--ink); }
+.px-n { fill: var(--thread-brown); }
+.px-w { fill: var(--cloth-panel); }
+.px-b { fill: var(--thread-blue); }
+.px-y { fill: var(--thread-gold); }
+.px-g { fill: var(--thread-green); }
+.px-r { fill: var(--thread-red); }
+
+/* ---- Page frame ---- */
+
+.page { max-width: 960px; margin: 0 auto; padding: 0 var(--space-6) var(--space-8); box-sizing: border-box; }
+
+.masthead-bar { display: flex; align-items: center; gap: var(--space-2); min-height: 80px; flex-wrap: wrap; padding: var(--space-1) 0; }
+.masthead-bar .home { display: flex; align-items: center; gap: var(--space-2); text-decoration: none; }
+.masthead-bar .name { font: var(--text-masthead); letter-spacing: 0.02em; color: var(--thread-red); margin: 0; }
+.site-nav { margin-left: auto; display: flex; align-items: center; gap: var(--space-1); }
+.tab { font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; padding: var(--space-1) var(--space-2); color: var(--thread-blue); text-decoration: none; }
+.tab:hover { text-decoration: underline dotted 2px; text-underline-offset: 3px; }
+.tab[aria-current="page"] { background: var(--thread-blue); color: var(--on-thread); }
+
+.theme-toggle { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; margin-left: var(--space-1); background: none; border: 0; cursor: pointer; }
+.theme-toggle .moon { display: none; }
+html[data-theme="midnight"] .theme-toggle .sun { display: none; }
+html[data-theme="midnight"] .theme-toggle .moon { display: block; }
+
+.site-footer { margin-top: var(--space-8); font: var(--text-caption); color: var(--ink-muted); }
+
+/* ---- Text ---- */
+
+.kicker { font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--thread-green); margin: 0 0 var(--space-1); }
+.lede { margin: 0; }
+.muted { color: var(--ink-muted); }
+
+/* ---- Home page ---- */
+
+.hero { display: grid; grid-template-columns: 1fr 288px; gap: 56px; align-items: start; padding: 40px 0 var(--space-6); }
+.hero h1 { font: var(--text-display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--thread-blue); margin: 0 0 var(--space-1); }
+.hero .lede { max-width: 30em; }
+
+.entry { padding: var(--space-3); }
+.entry h2 { font: var(--text-title); letter-spacing: 0.01em; margin: 0 0 var(--space-1); }
+.entry p { font-size: 15px; line-height: 22px; margin: 0; }
+
+.section-heading { font: var(--text-heading); letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 var(--space-3); }
+
+.residents { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; list-style: none; margin: 0; padding: 0; }
+.resident { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-3); }
+.resident h3 { font: var(--text-title); letter-spacing: 0.01em; margin: 0; }
+.resident p { font: var(--text-caption); color: var(--ink-muted); margin: 0; }
+.resident .tag { display: block; margin-top: var(--space-1); font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--thread-green); }
+
+/* ---- Chart frame: styles the frame only, never the chart inside ---- */
+
+.chart-frame { margin: 0; padding: var(--space-3); }
+.chart-frame > svg, .chart-frame > .chart { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.chart-frame figcaption { font: var(--text-caption); color: var(--ink-muted); margin-top: var(--space-1); }
+
+/* ---- Flash messages from the generator's core components ---- */
+
+.toast { position: fixed; top: var(--space-2); right: var(--space-2); z-index: 50; }
+.alert { display: flex; gap: var(--space-1); align-items: flex-start; background: var(--cloth-panel); color: var(--ink); border: 2px solid var(--thread-red); padding: var(--space-2); font: var(--text-caption); }
+.alert-info { border-color: var(--thread-blue); }
+
+/* ---- Narrow screens ---- */
+
+@media (max-width: 760px) {
+  .page { padding: 0 var(--space-2) var(--space-6); }
+  .masthead-bar .name { font-size: 22px; }
+  .site-nav { margin-left: 0; width: 100%; }
+  .hero { grid-template-columns: 1fr; gap: var(--space-6); padding-top: var(--space-3); }
+  .residents { grid-template-columns: 1fr; gap: var(--space-4); }
+}
