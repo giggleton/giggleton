@@ -54,18 +54,17 @@ defmodule Giggleton.MixProject do
        app: false,
        compile: false,
        depth: 1},
-      {:daisyui,
-       github: "saadeghi/daisyui",
-       tag: "v5.5.20",
-       sparse: "packages/bundle",
-       app: false,
-       compile: false,
-       depth: 1},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:nimble_publisher, "~> 1.1"},
+      {:makeup_elixir, ">= 0.0.0"},
+      # Giggly is not on Hex yet: pinned to the last commit pushed to GitHub.
+      {:giggly, github: "giggleton/giggly", ref: "dd9eec5c71aa7f4fc37ba294b348f8acf14d2eff"},
+      # Optional in Giggly; listed so the site measures chart text.
+      {:pica, "~> 0.1"}
     ]
   end
 
