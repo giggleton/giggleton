@@ -15,6 +15,9 @@ defmodule GiggletonWeb.Router do
 
     live_session :site do
       live "/", HomeLive
+      live "/posts", PostIndexLive
+      live "/posts/:slug", PostLive
+      live "/tags/:tag", TagLive
     end
   end
 end

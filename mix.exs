@@ -60,6 +60,8 @@ defmodule Giggleton.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:nimble_publisher, "~> 1.1"},
+      # Parses posts in place of Earmark, which is retired; see Giggleton.Markdown.
+      {:mdex, "~> 0.14"},
       {:makeup_elixir, ">= 0.0.0"},
       # Giggly is not on Hex yet: pinned to the last commit pushed to GitHub.
       {:giggly, github: "giggleton/giggly", ref: "dd9eec5c71aa7f4fc37ba294b348f8acf14d2eff"},

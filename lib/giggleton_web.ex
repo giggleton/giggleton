@@ -82,6 +82,7 @@ defmodule GiggletonWeb do
       # Core UI components
       import GiggletonWeb.CoreComponents
       import GiggletonWeb.PixelArt
+      import GiggletonWeb.PostComponents
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

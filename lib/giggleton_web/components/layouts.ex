@@ -61,11 +61,11 @@ defmodule GiggletonWeb.Layouts do
     """
   end
 
-  # Posts and Residents point at their sections of the home page until their own pages exist.
+  # Residents points at its section of the home page until the resident pages exist.
   defp nav_tabs do
     [
       {:home, "Home", ~p"/"},
-      {:posts, "Posts", ~p"/#latest"},
+      {:posts, "Posts", ~p"/posts"},
       {:residents, "Residents", ~p"/#residents"}
     ]
   end

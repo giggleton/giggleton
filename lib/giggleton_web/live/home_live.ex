@@ -2,10 +2,12 @@ defmodule GiggletonWeb.HomeLive do
   @moduledoc """
   The home page: the greeting, the latest diary entry and the three residents.
 
-  Static for now. The latest entry and the residents move to NimblePublisher content when
-  the blog and the resident pages arrive.
+  The latest entry comes from `Giggleton.Blog`. The residents move to content when their
+  reference pages arrive.
   """
   use GiggletonWeb, :live_view
+
+  alias Giggleton.Blog
 
   @residents [
     %{
@@ -38,6 +40,7 @@ defmodule GiggletonWeb.HomeLive do
        page_title: "A village in cross-stitch",
        page_description:
          "Giggleton is the diary of a village where Elixir's charts get drawn: Giggly, Pica and Scales.",
+       latest: List.first(Blog.recent_posts(1)),
        residents: @residents
      )}
   end
@@ -55,11 +58,9 @@ defmodule GiggletonWeb.HomeLive do
           </p>
         </div>
 
-        <article id="latest" class="stitched entry" aria-labelledby="latest-title">
-          <p class="kicker">2 Nov · Entry 1</p>
-          <h2 id="latest-title">First stitches</h2>
-          <p>The village is open. Notes on what Giggly, Pica and Scales are up to start here soon.</p>
-        </article>
+        <div :if={@latest} id="latest" class="stitched entry">
+          <.post_card id="latest-post" post={@latest} />
+        </div>
       </section>
 
       <section id="residents" aria-labelledby="residents-heading">

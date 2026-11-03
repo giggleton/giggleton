@@ -1,0 +1,102 @@
+/* The diary: post lists, the post page and its prose. Colours and sizes come from
+   tokens.css. Nothing here selects into a chart. */
+
+/* ---- Page intro on the diary and tag pages ---- */
+
+.page-intro { padding: 40px 0 var(--space-6); }
+.page-intro h1 { font: var(--text-display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--thread-blue); margin: 0 0 var(--space-1); }
+.page-intro .lede { font: var(--text-lede); max-width: 30em; }
+
+/* ---- Lists of posts ---- */
+
+.listing { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 56px; align-items: start; }
+.listing-aside .section-heading { margin-bottom: var(--space-2); }
+
+.post-list { padding: var(--space-4) 40px; }
+.post-card + .post-card { margin-top: var(--space-6); padding-top: var(--space-6); border-top: var(--running-stitch) var(--ink-muted); }
+
+.post-kicker { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); align-items: center; }
+.post-kicker .who { display: inline-flex; gap: var(--space-1); align-items: center; color: var(--ink-muted); }
+
+.post-card h2 { font: var(--text-title); letter-spacing: 0.01em; margin: var(--space-1) 0; }
+.post-card h2 a { color: var(--ink); text-decoration: none; }
+.post-card h2 a:hover { text-decoration: underline dotted 2px; text-underline-offset: 4px; text-decoration-color: var(--thread-red); }
+.post-card p { margin: 0; max-width: var(--measure); }
+
+.read-on { display: inline-flex; gap: var(--space-1); align-items: center; margin-top: var(--space-2); font: var(--text-small); text-decoration: none; }
+.read-on .pixel { transition: transform 120ms ease-out; }
+.read-on:hover .pixel { transform: translateX(3px); }
+.read-on .px-k, .post-neighbours .px-k { fill: currentColor; }
+
+/* The home page's latest-entry panel is narrower and its text smaller. */
+.entry .post-card p:not(.kicker) { font-size: 15px; line-height: 22px; }
+
+/* ---- Tags ---- */
+
+.tags { display: flex; flex-wrap: wrap; gap: var(--space-1); list-style: none; margin: 0; padding: 0; }
+.tags a { display: inline-block; font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--thread-green); text-decoration: none; padding: 4px var(--space-1); box-shadow: inset 0 0 0 2px var(--thread-green); transition: background-color 120ms ease-out, color 120ms ease-out; }
+.tags a::before { content: "# "; }
+.tags a:hover, .tags a[aria-current="page"] { background: var(--thread-green); color: var(--on-thread); }
+
+/* ---- One post ---- */
+
+.post { max-width: calc(var(--measure) + 80px); padding: var(--space-4) 40px; box-sizing: border-box; }
+.post h1 { font: var(--text-title); letter-spacing: 0.01em; margin: var(--space-1) 0 var(--space-4); }
+
+.post-footer { margin-top: var(--space-6); padding-top: var(--space-3); border-top: var(--running-stitch) var(--ink-muted); }
+
+.post-neighbours { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; justify-content: space-between; max-width: calc(var(--measure) + 80px); margin-top: 40px; }
+.post-neighbours a { display: inline-flex; gap: var(--space-1); align-items: center; text-decoration: none; }
+.post-neighbours a > span { display: flex; flex-direction: column; }
+.post-neighbours a:hover > span { text-decoration: underline dotted 2px; text-underline-offset: 3px; }
+.post-neighbours .kicker { margin: 0; color: var(--ink-muted); }
+.post-neighbours .back { transform: scaleX(-1); }
+.post-neighbours .all { font: var(--text-small); }
+.post-neighbours [rel="next"] { text-align: right; margin-left: auto; }
+
+/* ---- Prose: the compiled Markdown of a post ---- */
+
+.prose { max-width: var(--measure); }
+.prose > :first-child { margin-top: 0; }
+.prose > p:first-child { font: var(--text-lede); }
+.prose p, .prose ul, .prose ol, .prose blockquote, .prose pre, .prose table, .prose figure { margin: 0 0 var(--space-3); }
+.prose h2, .prose h3 { font: var(--text-heading); letter-spacing: 0.04em; text-transform: uppercase; margin: var(--space-6) 0 var(--space-2); }
+.prose h3 { color: var(--ink-muted); }
+.prose ul, .prose ol { padding-left: var(--space-3); }
+.prose ul { list-style: square; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: var(--space-1); }
+.prose li::marker { color: var(--thread-red); }
+.prose strong { font-weight: 700; }
+.prose img { max-width: 100%; height: auto; }
+.prose hr { border: 0; border-top: var(--running-stitch) var(--ink-muted); margin: var(--space-6) 0; }
+
+.prose blockquote { background: var(--cloth-sunken); padding: var(--space-2) var(--space-3); box-shadow: inset 4px 0 0 var(--thread-green); }
+.prose blockquote > :last-child { margin-bottom: 0; }
+
+.prose code { font: var(--text-code); font-variant-ligatures: none; background: var(--cloth-sunken); padding: 1px 5px; }
+.prose pre { background: var(--cloth-sunken); padding: var(--space-2) var(--space-3); overflow-x: auto; }
+.prose pre code { padding: 0; background: none; }
+
+.prose table { border-collapse: collapse; font-size: 15px; line-height: 22px; }
+.prose th, .prose td { padding: var(--space-1) var(--space-2); border-bottom: 2px dotted var(--grid); text-align: left; }
+.prose th { font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* MDEx puts an empty anchor after each heading; show it as a red # on hover. */
+.prose .anchor { margin-left: var(--space-1); color: var(--thread-red); text-decoration: none; opacity: 0; transition: opacity 120ms ease-out; }
+.prose .anchor::before { content: "#"; }
+.prose :is(h2, h3):hover .anchor, .prose .anchor:focus-visible { opacity: 1; }
+
+/* Makeup's token classes, in threads that hold 4.5:1 on cloth-sunken in both themes.
+   thread-brown does not, so it is left out. */
+.makeup :is(.k, .kc, .kd, .kn, .kp, .kr, .kt, .ow, .na, .se, .si) { color: var(--thread-red); }
+.makeup :is(.s, .s1, .s2, .sb, .sc, .sd, .sh, .sr, .sx) { color: var(--thread-green); }
+.makeup :is(.ss, .m, .mb, .mf, .mh, .mi, .mo, .no, .bp) { color: var(--thread-gold-text); }
+.makeup :is(.nc, .nf, .nb, .fm) { color: var(--thread-blue); }
+.makeup :is(.c, .c1, .cm, .cs, .ch) { color: var(--ink-muted); font-style: italic; }
+
+@media (max-width: 760px) {
+  .page-intro { padding-top: var(--space-3); }
+  .listing { grid-template-columns: 1fr; gap: var(--space-6); }
+  .post, .post-list { padding: var(--space-3) var(--space-2); }
+}

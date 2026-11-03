@@ -86,7 +86,7 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 
 .entry { padding: var(--space-3); }
 .entry h2 { font: var(--text-title); letter-spacing: 0.01em; margin: 0 0 var(--space-1); }
-.entry p { font-size: 15px; line-height: 22px; margin: 0; }
+.entry p:not(.kicker) { font-size: 15px; line-height: 22px; margin: 0; }
 
 .section-heading { font: var(--text-heading); letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 var(--space-3); }
 
