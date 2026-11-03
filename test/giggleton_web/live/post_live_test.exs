@@ -46,6 +46,13 @@ defmodule GiggletonWeb.PostLiveTest do
     assert has_element?(view, "#post pre code.makeup.elixir span.kn", "alias")
   end
 
+  test "the first post shows Giggly's chart, framed and captioned", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/posts/first-stitches")
+
+    assert has_element?(view, "#post figure.chart-frame svg[aria-labelledby='fig-mtcars']")
+    assert has_element?(view, "#post figcaption#fig-mtcars", "Fig. 1")
+  end
+
   test "a tag page lists the posts carrying it", %{conn: conn, post: %{tags: [tag | _]} = post} do
     {:ok, view, _html} = live(conn, ~p"/tags/#{tag}")
 

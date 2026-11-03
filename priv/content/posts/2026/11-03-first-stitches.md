@@ -25,14 +25,15 @@ alias Giggly.Plot
 Giggly.Datasets.mtcars()
 |> Plot.new(%{x: :wt, y: :mpg})
 |> Plot.geom_point()
-|> Giggly.to_svg()
-# => an SVG document, as iodata
+|> Giggly.to_svg(width: 560, height: 360)
 ```
 
-The chart itself comes in a later entry, once the press can set charts straight into the page.
+And here is what it draws, exactly as Giggly wrote it:
+
+![Fig. 1 — Heavier cars go fewer miles per gallon. Drawn in Giggly's default theme.](/charts/2026-11-03-first-stitches/mtcars.svg)
 
 > Every chart on this site keeps Giggly's own colours and type. The stitching stops at the frame.
 
 ## What comes next
 
-Each resident gets a reference page, then charts arrive, first as pictures and then live ones you can poke at.
+Each resident gets a reference page. After that come live charts, ones you can change and watch redraw.

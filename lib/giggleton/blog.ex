@@ -15,6 +15,11 @@ defmodule Giggleton.Blog do
     html_converter: Giggleton.Markdown,
     highlighters: [:makeup_elixir]
 
+  # Recompile when a post's chart is redrawn, not only when its Markdown changes.
+  for post <- @posts, chart <- post.charts do
+    @external_resource chart
+  end
+
   @posts @posts
          |> Enum.sort_by(&{&1.date, &1.slug}, :asc)
          |> Enum.with_index(1)

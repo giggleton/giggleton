@@ -5,8 +5,8 @@ reference pages, styled as a cross-stitch sampler of a village where each packag
 resident. Giggly the hyena keeps the garden plots, Pica the magpie runs the press, and Scales
 the chameleon keeps the weights and measures.
 
-It is a Phoenix LiveView app with no database. Posts and pages will be Markdown compiled in
-by NimblePublisher, and live Giggly demos will mount inside posts.
+It is a Phoenix LiveView app with no database. Posts are Markdown compiled in by
+NimblePublisher, and live Giggly demos will mount inside posts.
 
 ## Running it
 
@@ -16,6 +16,43 @@ mix phx.server
 ```
 
 Then open <http://localhost:4000>.
+
+## Writing a post
+
+Add `priv/content/posts/YYYY/MM-DD-slug.md`. The path gives the date and the address
+(`/posts/slug`); the front matter gives the rest:
+
+```elixir
+%{
+  title: "Nice breaks, those",
+  description: "One line: the excerpt in lists and the page's meta description.",
+  residents: [:scales],
+  tags: ["breaks", "log-scales"]
+}
+---
+The first paragraph is the lede.
+```
+
+A misspelt key, an unknown resident or a tag that isn't lowercase-and-hyphens fails the build.
+
+### Charts
+
+A post's charts are drawn by a script named after it, `priv/charts/YYYY-MM-DD-slug.exs`,
+which returns a map of chart name to `Giggly.to_svg/2` output. Draw them with:
+
+```bash
+mix charts
+```
+
+That writes `priv/static/charts/YYYY-MM-DD-slug/<name>.svg`; commit those with the script.
+`mix charts --force` redraws everything, for after a Giggly bump. In the post, a chart is an
+image alone in its paragraph, with the caption as alt text:
+
+```markdown
+![Fig. 1 — Heavier cars go fewer miles per gallon](/charts/2026-11-03-first-stitches/mtcars.svg)
+```
+
+The SVG is inlined into the page at compile time, in the stitched frame.
 
 ## Where things are
 

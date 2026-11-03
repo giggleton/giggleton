@@ -16,6 +16,9 @@ defmodule Giggleton.Blog.Post do
   the page's meta description. `residents` and `tags` default to none. A misspelt key, an
   unknown resident or a tag that isn't lowercase-and-hyphens fails the build.
 
+  Charts referenced as `/charts/...svg` images are inlined by `Giggleton.Blog.Figures`, and
+  the files read are kept in `charts` so the blog recompiles when one is redrawn.
+
   `entry` is the post's place in the diary, counted from the first post, and is filled in
   by `Giggleton.Blog` once every post is read.
   """
@@ -23,7 +26,17 @@ defmodule Giggleton.Blog.Post do
   @type t :: %__MODULE__{}
 
   @enforce_keys [:slug, :date, :title, :description, :body]
-  defstruct [:slug, :date, :title, :description, :body, :entry, residents: [], tags: []]
+  defstruct [
+    :slug,
+    :date,
+    :title,
+    :description,
+    :body,
+    :entry,
+    residents: [],
+    tags: [],
+    charts: []
+  ]
 
   @residents [:giggly, :pica, :scales]
   @kebab ~r/\A[a-z0-9]+(-[a-z0-9]+)*\z/
@@ -33,6 +46,8 @@ defmodule Giggleton.Blog.Post do
     {date, slug} = date_and_slug!(path)
 
     post = struct!(__MODULE__, [slug: slug, date: date, body: body] ++ Map.to_list(attrs))
+    {body, charts} = Giggleton.Blog.Figures.inline(body, path)
+    post = %{post | body: body, charts: charts}
 
     check!(path, is_binary(post.title), "title must be a string")
     check!(path, is_binary(post.description), "description must be a string")

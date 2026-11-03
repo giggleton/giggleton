@@ -99,6 +99,7 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 /* ---- Chart frame: styles the frame only, never the chart inside ---- */
 
 .chart-frame { margin: 0; padding: var(--space-3); }
+.prose .chart-frame { margin: var(--space-6) 0; }
 .chart-frame > svg, .chart-frame > .chart { display: block; max-width: 100%; height: auto; margin: 0 auto; }
 .chart-frame figcaption { font: var(--text-caption); color: var(--ink-muted); margin-top: var(--space-1); }
 
