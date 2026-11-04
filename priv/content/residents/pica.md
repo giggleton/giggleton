@@ -59,8 +59,49 @@ comes with precompiled binaries, so a project using it needs no Rust.
 
 ## Setting a chart in another face
 
-Giggly measures a chart's text as Liberation Sans unless Pica holds a font for it. Ship the
-font files in `priv` and register them with Pica once, when the application starts:
+A plot names its fonts by family, in its theme. What a reader then sees depends on whether Pica
+holds the font.
+
+```elixir
+alias Giggly.Plot
+
+plot =
+  Giggly.Datasets.mtcars()
+  |> Plot.new(%{x: :wt, y: :mpg})
+  |> Plot.geom_point()
+  |> Plot.labs(
+    title: "Heavier cars, thirstier engines",
+    x: "Weight (1,000 lb)",
+    y: "Miles per gallon"
+  )
+  |> Plot.theme_gray(
+    base_family: "Source Serif 4",
+    header_family: "Lobster"
+  )
+```
+
+### Naming the font
+
+In a project without Pica, naming the families is all there is to it:
+
+```elixir
+Giggly.to_svg(plot, width: 480, height: 320)
+```
+
+![Fig. 1 — The fonts named only. Giggly laid the chart out with Liberation Sans's widths, and your browser draws each label in the named face, if it has it, stretched or squeezed to fit.](/charts/pica/named.svg)
+
+Giggly has no font to measure, so it lays the chart out with Liberation Sans's widths and writes
+each label as text naming its family, fitted to the width it measured. This page loads both
+faces as web fonts, so your browser draws them, but at the wrong widths. Lobster sets the title
+151 points wide where Liberation Sans takes 175, so here it is stretched about 16% to fill the
+room, and the axis titles by 8% and 14%. Compare them with Fig. 2.
+
+A browser without the face draws a fallback, usually Arial or Helvetica, instead. So does every
+feed reader, since a chart in a feed is an image, and an image can't use a page's fonts.
+
+### Registering it with Pica
+
+Ship the font files in `priv` and register them with Pica once, when the application starts:
 
 ```elixir
 # lib/my_app/application.ex
@@ -86,33 +127,21 @@ defp register_font({family, file}) do
 end
 ```
 
-From then on a plot only names the families, in a LiveView or anywhere else:
+Then the same call draws the same plot:
 
 ```elixir
-alias Giggly.Plot
-
-Giggly.Datasets.mtcars()
-|> Plot.new(%{x: :wt, y: :mpg})
-|> Plot.geom_point()
-|> Plot.labs(
-  title: "Heavier cars, thirstier engines",
-  x: "Weight (1,000 lb)",
-  y: "Miles per gallon"
-)
-|> Plot.theme_gray(
-  base_family: "Source Serif 4",
-  header_family: "Lobster"
-)
-|> Giggly.to_svg(width: 480, height: 320)
+Giggly.to_svg(plot, width: 480, height: 320)
 ```
 
-![Fig. 1 — The same cars as Giggly's first plot, with the tick labels set in Source Serif 4 and the titles in Lobster. Drawn by the code above.](/charts/pica/press.svg)
+![Fig. 2 — The fonts registered with Pica. Each label measured in its own face and drawn as that face's outlines.](/charts/pica/registered.svg)
 
 Pica measured each label in its own face before Giggly placed it, so the layout is built for
-these widths, not Liberation Sans's. Giggly then drew each label as the font's glyph outlines,
-so the SVG carries the letters itself: the page loads no web font, and the chart looks the same
-to every reader. The words are still in the drawing as unseen text, so a screen reader reads
-them and a search of the page finds them.
+these widths. Giggly then drew each label as the font's glyph outlines, so the SVG carries the
+letters itself: it looks the same to every reader and in every feed, with no web font. The words
+are still in the drawing as unseen text, so a screen reader reads them and a search of the page
+finds them.
 
-Giggly's [fonts guide](https://hexdocs.pm/giggly/fonts.html) has the rest: bold and italic
-faces, fonts installed on the machine, and writing labels as text instead of outlines.
+A page that loads the faces itself can have both: `Giggly.to_svg(plot, text: :text)` measures
+with Pica but writes each label as text naming its family, a smaller drawing that the browser
+draws at the right widths. Giggly's [fonts guide](https://hexdocs.pm/giggly/fonts.html) has the
+rest: bold and italic faces, and fonts installed on the machine.

@@ -72,6 +72,10 @@ defmodule Giggleton.Blog.Figures do
   An SVG made ready to sit in a chart frame: its XML prologue and fixed `width` and `height`
   dropped so it scales by its `viewBox`, and labelled by the caption with id `caption_id`.
   Live demos use it on each SVG they draw.
+
+  Every id inside the SVG, and every reference to one, is prefixed with `caption_id`, so two
+  charts on a page never share an id. Giggly names its clip paths and glyphs by their content,
+  so two charts would otherwise repeat them.
   """
   @spec scalable(iodata(), String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def scalable(svg, caption_id) do
@@ -80,6 +84,7 @@ defmodule Giggleton.Blog.Figures do
       |> IO.iodata_to_binary()
       |> String.replace(~r{<\?xml.*?\?>|<!DOCTYPE[^>]*>}s, "")
       |> String.trim()
+      |> prefix_ids(caption_id <> "-")
 
     case Regex.run(@svg_tag, svg) do
       nil ->
@@ -97,6 +102,13 @@ defmodule Giggleton.Blog.Figures do
           {:error, "has no viewBox, so it can't scale"}
         end
     end
+  end
+
+  defp prefix_ids(svg, prefix) do
+    svg
+    |> String.replace(~r/\bid=(['"])/, "id=\\1#{prefix}")
+    |> String.replace(~r/\bhref=(['"])#/, "href=\\1##{prefix}")
+    |> String.replace("url(#", "url(##{prefix}")
   end
 
   defp file("/" <> src), do: Path.join(@static, src)

@@ -25,6 +25,18 @@ defmodule Giggleton.Blog.FiguresTest do
     refute svg_tag =~ ~r/\s(width|height)=/
   end
 
+  test "ids inside the SVG, and references to them, take the figure's id as a prefix" do
+    svg =
+      ~s|<svg viewBox="0 0 1 1"><clipPath id='cp1'/><g clip-path='url(#cp1)'><use href='#g1'/></g></svg>|
+
+    {:ok, svg} = Figures.scalable(svg, "fig-a")
+
+    assert svg =~ "id='fig-a-cp1'"
+    assert svg =~ "url(#fig-a-cp1)"
+    assert svg =~ "href='#fig-a-g1'"
+    refute svg =~ "'cp1'"
+  end
+
   test "other images and text are left alone" do
     html = ~s(<p><img src="/images/cottage.png" alt="A cottage" /></p>)
 

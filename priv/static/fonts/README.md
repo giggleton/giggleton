@@ -1,8 +1,9 @@
 # Chart fonts
 
-Fonts the chart scripts register with Pica, so Giggly measures a chart's text in them and draws
-it as their outlines. They are read only by `mix charts`, never served: a reader's browser needs
-none of them, since the SVG carries the glyph shapes.
+Fonts the chart scripts name. `mix charts` registers them with Pica, so Giggly measures a chart's
+text in them and draws it as their outlines, which need no font in the browser. They are also
+served as web fonts (`@font-face` in `assets/css/stitch.css`), for a chart that writes its labels
+as text naming them, as the first chart on Pica's page does.
 
 Each is a full original file, exactly as its project published it, with its licence beside it.
 Both licences reserve the font's name, so a modified copy could not keep it.

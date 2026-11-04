@@ -137,3 +137,11 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 .demo-controls input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.15); }
 .demo-controls input[type="range"]:hover::-moz-range-thumb { transform: scale(1.15); }
 .demo-controls input[type="range"]:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+
+/* ---- Faces chart scripts name ----
+   For a chart that writes its labels as text naming a family, as the first chart on Pica's page
+   does, so the reader's browser has the face. This styles nothing; a browser fetches a face only
+   for a page whose text uses it. Files and licences: priv/static/fonts. */
+
+@font-face { font-family: "Source Serif 4"; src: url("/fonts/SourceSerif4-Regular.otf.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Lobster"; src: url("/fonts/Lobster-Regular.ttf") format("truetype"); font-display: swap; }

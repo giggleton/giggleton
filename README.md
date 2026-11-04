@@ -122,7 +122,7 @@ run it. `/sitemap.xml` lists every page. Both use the host in `PHX_HOST` for the
 
 Giggly and Pica come from Hex, and Scales comes with Giggly. Pica is optional in Giggly; the
 site lists it so chart scripts can register fonts for Giggly to measure and draw text in. Those
-fonts are in `priv/charts/fonts/`, read only by `mix charts`.
+fonts are in `priv/static/fonts/`, which also serves them as web fonts (see its README).
 
 ## Deploying
 
