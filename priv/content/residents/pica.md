@@ -59,18 +59,37 @@ comes with precompiled binaries, so a project using it needs no Rust.
 
 ## Setting a chart in another face
 
-Giggly measures a chart's text as Liberation Sans unless Pica holds a font for it. Register a
-font with Pica under a family name and name that family in Giggly's theme: Pica measures every
-label in it, and Giggly draws each label as the font's own glyph outlines.
+Giggly measures a chart's text as Liberation Sans unless Pica holds a font for it. Ship the
+font files in `priv` and register them with Pica once, when the application starts:
+
+```elixir
+# lib/my_app/application.ex
+@fonts [
+  {"Source Serif 4", "SourceSerif4-Regular.otf.woff2"},
+  {"Lobster", "Lobster-Regular.ttf"}
+]
+
+def start(_type, _args) do
+  Enum.each(@fonts, &register_font/1)
+  # ...then start the supervision tree as usual
+end
+
+defp register_font({family, file}) do
+  bytes =
+    :my_app
+    |> Application.app_dir("priv/fonts")
+    |> Path.join(file)
+    |> File.read!()
+
+  {:ok, font} = Pica.load(bytes)
+  :ok = Pica.register(family, plain: font)
+end
+```
+
+From then on a plot only names the families, in a LiveView or anywhere else:
 
 ```elixir
 alias Giggly.Plot
-
-load = fn path -> Pica.load(File.read!(path)) end
-{:ok, serif} = load.("SourceSerif4-Regular.otf.woff2")
-{:ok, lobster} = load.("Lobster-Regular.ttf")
-:ok = Pica.register("Source Serif 4", plain: serif)
-:ok = Pica.register("Lobster", plain: lobster)
 
 Giggly.Datasets.mtcars()
 |> Plot.new(%{x: :wt, y: :mpg})
@@ -84,21 +103,16 @@ Giggly.Datasets.mtcars()
   base_family: "Source Serif 4",
   header_family: "Lobster"
 )
-|> Giggly.to_svg(
-  width: 480,
-  height: 320,
-  installed_fonts: false
-)
+|> Giggly.to_svg(width: 480, height: 320)
 ```
 
 ![Fig. 1 — The same cars as Giggly's first plot, with the tick labels set in Source Serif 4 and the titles in Lobster. Drawn by the code above.](/charts/pica/press.svg)
 
-The layout is built for these faces' own widths, not Liberation Sans's, because Pica measured
-each label before Giggly placed it. Because the labels are drawn as outlines, the chart looks
-the same to every reader, whether or not their machine has the fonts. The words are still in
-the drawing as unseen text, so a screen reader reads them and a search of the page finds them.
+Pica measured each label in its own face before Giggly placed it, so the layout is built for
+these widths, not Liberation Sans's. Giggly then drew each label as the font's glyph outlines,
+so the SVG carries the letters itself: the page loads no web font, and the chart looks the same
+to every reader. The words are still in the drawing as unseen text, so a screen reader reads
+them and a search of the page finds them.
 
-Register fonts once, when the application starts. `installed_fonts: false` tells Giggly to use
-only the registered fonts and never look for others on the machine drawing the chart. Giggly's
-[fonts guide](https://hexdocs.pm/giggly/fonts.html) has the rest: faces, the symbol font, and
-writing labels as text instead of outlines.
+Giggly's [fonts guide](https://hexdocs.pm/giggly/fonts.html) has the rest: bold and italic
+faces, fonts installed on the machine, and writing labels as text instead of outlines.

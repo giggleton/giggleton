@@ -1,5 +1,7 @@
 alias Giggly.Plot
 
+# A script has no application start, so it registers its fonts here. Pica's page shows an
+# application doing the same once, in Application.start/2.
 font = fn file -> {:ok, font} = Pica.load(File.read!("priv/charts/fonts/" <> file)); font end
 :ok = Pica.register("Source Serif 4", plain: font.("SourceSerif4-Regular.otf.woff2"))
 :ok = Pica.register("Lobster", plain: font.("Lobster-Regular.ttf"))
@@ -15,4 +17,4 @@ press =
   )
   |> Plot.theme_gray(base_family: "Source Serif 4", header_family: "Lobster")
 
-%{"press" => Giggly.to_svg(press, width: 480, height: 320, installed_fonts: false)}
+%{"press" => Giggly.to_svg(press, width: 480, height: 320)}
