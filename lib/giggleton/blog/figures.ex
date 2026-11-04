@@ -11,13 +11,20 @@ defmodule Giggleton.Blog.Figures do
   to the column by its `viewBox`, and it is set in the stitched chart frame with the caption
   below. Nothing inside the SVG is changed: it keeps the colours and fonts of its Giggly theme.
 
+  Two or more chart images in one paragraph, on consecutive lines, are set side by side for
+  comparison, each in its own frame with its own caption:
+
+      ![Fig. 1 — The fonts named only](/charts/pica/named.svg)
+      ![Fig. 2 — The fonts registered with Pica](/charts/pica/registered.svg)
+
   A chart not drawn yet fails a prod build. In dev and test it is a compile warning and a
   placeholder in the frame instead, since `mix charts` lives in this project and can only run
   once the project compiles.
   """
 
   @static "priv/static"
-  @image ~r{<p><img src="(/charts/[^"]+\.svg)" alt="([^"]*)" /></p>}
+  @image ~r{<img src="(/charts/[^"]+\.svg)" alt="([^"]*)" />}
+  @paragraph ~r{<p>((?:\s*<img src="/charts/[^"]+\.svg" alt="[^"]*" />)+)\s*</p>}
   @svg_tag ~r{<svg\b[^>]*>}
   @size_attr ~r{\s(?:width|height)=(["'])[^"']*\1}
   @missing if Mix.env() == :prod, do: :raise, else: :warn
@@ -31,11 +38,24 @@ defmodule Giggleton.Blog.Figures do
   """
   @spec inline(String.t(), Path.t(), :raise | :warn) :: {String.t(), [Path.t()]}
   def inline(html, post_path, missing \\ @missing) do
-    files = for [_, src, _] <- Regex.scan(@image, html), uniq: true, do: file(src)
+    files =
+      for [_, images] <- Regex.scan(@paragraph, html),
+          [_, src, _] <- Regex.scan(@image, images),
+          uniq: true,
+          do: file(src)
 
     html =
-      Regex.replace(@image, html, fn _, src, caption ->
-        figure(src, caption, post_path, missing)
+      Regex.replace(@paragraph, html, fn _, images ->
+        case Regex.scan(@image, images) do
+          [[_, src, caption]] ->
+            figure(src, caption, post_path, missing)
+
+          images ->
+            figures =
+              for [_, src, caption] <- images, do: figure(src, caption, post_path, missing)
+
+            ~s(<div class="chart-compare">\n#{figures}</div>\n)
+        end
       end)
 
     {html, files}

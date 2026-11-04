@@ -13,7 +13,7 @@ plot =
 
 # Named only: drawn before any font is registered, and without searching the fonts installed on
 # this machine, so it is what a project without Pica draws.
-named = Giggly.to_svg(plot, width: 480, height: 320, installed_fonts: false)
+named = Giggly.to_svg(plot, width: 280, height: 240, installed_fonts: false)
 
 # A script has no application start, so it registers the fonts here. Pica's page shows an
 # application doing the same once, in Application.start/2.
@@ -25,6 +25,6 @@ for {family, file} <- [
   :ok = Pica.register(family, plain: font)
 end
 
-registered = Giggly.to_svg(plot, width: 480, height: 320)
+registered = Giggly.to_svg(plot, width: 280, height: 240)
 
 %{"named" => named, "registered" => registered}

@@ -85,19 +85,8 @@ plot =
 In a project without Pica, naming the families is all there is to it:
 
 ```elixir
-Giggly.to_svg(plot, width: 480, height: 320)
+Giggly.to_svg(plot, width: 280, height: 240)
 ```
-
-![Fig. 1 — The fonts named only. Giggly laid the chart out with Liberation Sans's widths, and your browser draws each label in the named face, if it has it, stretched or squeezed to fit.](/charts/pica/named.svg)
-
-Giggly has no font to measure, so it lays the chart out with Liberation Sans's widths and writes
-each label as text naming its family, fitted to the width it measured. This page loads both
-faces as web fonts, so your browser draws them, but at the wrong widths. Lobster sets the title
-151 points wide where Liberation Sans takes 175, so here it is stretched about 16% to fill the
-room, and the axis titles by 8% and 14%. Compare them with Fig. 2.
-
-A browser without the face draws a fallback, usually Arial or Helvetica, instead. So does every
-feed reader, since a chart in a feed is an image, and an image can't use a page's fonts.
 
 ### Registering it with Pica
 
@@ -127,19 +116,26 @@ defp register_font({family, file}) do
 end
 ```
 
-Then the same call draws the same plot:
+Then the same call draws the same plot.
 
-```elixir
-Giggly.to_svg(plot, width: 480, height: 320)
-```
+### Side by side
 
-![Fig. 2 — The fonts registered with Pica. Each label measured in its own face and drawn as that face's outlines.](/charts/pica/registered.svg)
+![Fig. 1 — Named only: laid out with Liberation Sans's widths, each label stretched or squeezed to fit.](/charts/pica/named.svg)
+![Fig. 2 — Registered with Pica: each label measured in its own face and drawn as its outlines.](/charts/pica/registered.svg)
 
-Pica measured each label in its own face before Giggly placed it, so the layout is built for
-these widths. Giggly then drew each label as the font's glyph outlines, so the SVG carries the
-letters itself: it looks the same to every reader and in every feed, with no web font. The words
-are still in the drawing as unseen text, so a screen reader reads them and a search of the page
-finds them.
+In Fig. 1, Giggly had no font to measure, so it laid the chart out with Liberation Sans's widths
+and wrote each label as text naming its family, fitted to the width it measured. This page loads
+both faces as web fonts, so your browser draws them, but at the wrong widths. Lobster sets the
+title 151 points wide where Liberation Sans takes 175, so in Fig. 1 it is stretched about 16% to
+fill the room, and the axis titles by 8% and 14%. A browser without the face draws a fallback,
+usually Arial or Helvetica, instead. So does every feed reader, since a chart in a feed is an
+image, and an image can't use a page's fonts.
+
+In Fig. 2, Pica measured each label in its own face before Giggly placed it, so the layout is
+built for these widths. Giggly then drew each label as the font's glyph outlines, so the SVG
+carries the letters itself: it looks the same to every reader and in every feed, with no web
+font. The words are still in the drawing as unseen text, so a screen reader reads them and a
+search of the page finds them.
 
 A page that loads the faces itself can have both: `Giggly.to_svg(plot, text: :text)` measures
 with Pica but writes each label as text naming its family, a smaller drawing that the browser

@@ -37,6 +37,20 @@ defmodule Giggleton.Blog.FiguresTest do
     refute svg =~ "'cp1'"
   end
 
+  test "charts on consecutive lines of one paragraph are set side by side" do
+    other = "/charts/giggly/garden.svg"
+    html = ~s(<p><img src="#{@chart}" alt="Fig. 1" />\n<img src="#{other}" alt="Fig. 2" /></p>)
+
+    {html, files} = Figures.inline(html, "post.md")
+    doc = LazyHTML.from_fragment(html)
+
+    assert files == ["priv/static" <> @chart, "priv/static" <> other]
+    assert doc |> LazyHTML.query(".chart-compare > figure.chart-frame svg") |> Enum.count() == 2
+    assert doc |> LazyHTML.query("#fig-mtcars") |> LazyHTML.text() == "Fig. 1"
+    assert doc |> LazyHTML.query("#fig-garden") |> LazyHTML.text() == "Fig. 2"
+    refute html =~ "<p>"
+  end
+
   test "other images and text are left alone" do
     html = ~s(<p><img src="/images/cottage.png" alt="A cottage" /></p>)
 

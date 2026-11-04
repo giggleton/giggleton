@@ -52,7 +52,9 @@ image alone in its paragraph, with the caption as alt text:
 ![Fig. 1 — Heavier cars go fewer miles per gallon](/charts/2026-11-03-first-stitches/mtcars.svg)
 ```
 
-The SVG is inlined into the page at compile time, in the stitched frame. A chart that hasn't
+Put two or more chart images on consecutive lines of one paragraph to set them side by side
+for comparison, each in its own frame with its own caption. The SVG is inlined into the page at
+compile time, in the stitched frame. A chart that hasn't
 been drawn yet is a compile warning and a placeholder in dev, and fails a prod build.
 
 ### Live demos
