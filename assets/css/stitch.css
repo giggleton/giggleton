@@ -53,6 +53,14 @@ a:hover { text-decoration-style: solid; }
 .px-g { fill: var(--thread-green); }
 .px-r { fill: var(--thread-red); }
 
+/* Threads that keep their value when the theme inverts ink: d is always the darkest thread and l
+   always a light one, so a magpie stays black and white in Midnight. A pattern stitched in d
+   keeps its edge in k, which turns light in Midnight and holds the dark body off the dark card. */
+.px-d { fill: var(--ink); }
+.px-l { fill: var(--cloth-panel); }
+html[data-theme="midnight"] .px-d { fill: var(--cloth-sunken); }
+html[data-theme="midnight"] .px-l { fill: var(--ink); }
+
 /* ---- Page frame ---- */
 
 .page { max-width: 960px; margin: 0 auto; padding: 0 var(--space-6) var(--space-8); box-sizing: border-box; }

@@ -5,7 +5,9 @@ defmodule GiggletonWeb.PixelArt do
   Patterns live in `priv/patterns/*.txt`, one character per stitch (key in that folder's
   README). They are read and checked at compile time, and each row is turned into runs of
   same-thread stitches, so a 24×24 resident is a few dozen rects rather than hundreds. Each
-  run's class names its thread token in `stitch.css`, so the art follows the site theme.
+  run's class names its thread token in `stitch.css`, so the art follows the site theme, except
+  `d` and `l`, which stay dark and light in both themes for a resident whose colours are who
+  they are, such as the magpie.
   """
   use Phoenix.Component
 
@@ -17,7 +19,9 @@ defmodule GiggletonWeb.PixelArt do
     ?b => "px-b",
     ?y => "px-y",
     ?g => "px-g",
-    ?r => "px-r"
+    ?r => "px-r",
+    ?d => "px-d",
+    ?l => "px-l"
   }
 
   patterns =
