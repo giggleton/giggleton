@@ -9,8 +9,8 @@ defmodule GiggletonWeb.HomeLiveTest do
     assert html =~ "A village in"
     assert has_element?(view, "#latest h2 a[href='/posts/first-stitches']", "First stitches")
 
-    for name <- ["Giggly", "Pica", "Scales"] do
-      assert has_element?(view, "#residents h3", name)
+    for {id, name} <- [giggly: "Giggly", pica: "Pica", scales: "Scales"] do
+      assert has_element?(view, "#residents a[href='/residents/#{id}'] h3", name)
     end
   end
 

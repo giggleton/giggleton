@@ -20,6 +20,7 @@
 @import "./tokens.css";
 @import "./stitch.css";
 @import "./posts.css";
+@import "./residents.css";
 
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }

@@ -78,7 +78,8 @@
 .prose pre { background: var(--cloth-sunken); padding: var(--space-2) var(--space-3); overflow-x: auto; }
 .prose pre code { padding: 0; background: none; }
 
-.prose table { border-collapse: collapse; font-size: 15px; line-height: 22px; }
+/* A wide table scrolls inside the column rather than pushing out of the panel. */
+.prose table { display: block; max-width: max-content; overflow-x: auto; border-collapse: collapse; font-size: 15px; line-height: 22px; }
 .prose th, .prose td { padding: var(--space-1) var(--space-2); border-bottom: 2px dotted var(--grid); text-align: left; }
 .prose th { font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; }
 

@@ -2,36 +2,11 @@ defmodule GiggletonWeb.HomeLive do
   @moduledoc """
   The home page: the greeting, the latest diary entry and the three residents.
 
-  The latest entry comes from `Giggleton.Blog`. The residents move to content when their
-  reference pages arrive.
+  The latest entry comes from `Giggleton.Blog` and the residents from `Giggleton.Residents`.
   """
   use GiggletonWeb, :live_view
 
-  alias Giggleton.Blog
-
-  @residents [
-    %{
-      pattern: "giggly",
-      name: "Giggly",
-      vocation: "Keeps the village garden plots.",
-      package: "giggly",
-      home: "The garden plots"
-    },
-    %{
-      pattern: "pica",
-      name: "Pica",
-      vocation: "Runs the press and measures every letter.",
-      package: "pica",
-      home: "The press"
-    },
-    %{
-      pattern: "scales",
-      name: "Scales",
-      vocation: "Keeps the weights, measures and palettes.",
-      package: "scales",
-      home: "Weights & measures"
-    }
-  ]
+  alias Giggleton.{Blog, Residents}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -41,7 +16,7 @@ defmodule GiggletonWeb.HomeLive do
        page_description:
          "Giggleton is the diary of a village where Elixir's charts get drawn: Giggly, Pica and Scales.",
        latest: List.first(Blog.recent_posts(1)),
-       residents: @residents
+       residents: Residents.all_residents()
      )}
   end
 
@@ -66,13 +41,8 @@ defmodule GiggletonWeb.HomeLive do
       <section id="residents" aria-labelledby="residents-heading">
         <h2 id="residents-heading" class="section-heading">The residents</h2>
         <ul class="residents">
-          <li :for={resident <- @residents} class="stitched resident">
-            <.pixel_art name={resident.pattern} size={96} />
-            <div>
-              <h3>{resident.name}</h3>
-              <p>{resident.vocation}</p>
-              <span class="tag">{resident.package} · {resident.home}</span>
-            </div>
+          <li :for={resident <- @residents}>
+            <.resident_card resident={resident} />
           </li>
         </ul>
       </section>

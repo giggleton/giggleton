@@ -18,6 +18,8 @@ defmodule GiggletonWeb.Router do
       live "/posts", PostIndexLive
       live "/posts/:slug", PostLive
       live "/tags/:tag", TagLive
+      live "/residents", ResidentIndexLive
+      live "/residents/:id", ResidentLive
     end
   end
 end

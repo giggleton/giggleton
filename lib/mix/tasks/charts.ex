@@ -4,8 +4,8 @@ defmodule Mix.Tasks.Charts do
   @moduledoc """
   Runs the chart scripts under `priv/charts` and writes their SVGs under `priv/static/charts`.
 
-  A script is named after its post, `priv/charts/2026-11-03-first-stitches.exs`, and returns a
-  map from chart name to the SVG Giggly drew:
+  A script is named after its post, `priv/charts/2026-11-03-first-stitches.exs`, or after a
+  resident, `priv/charts/giggly.exs`, and returns a map from chart name to the SVG Giggly drew:
 
       %{"mtcars" => plot |> Giggly.to_svg(width: 560, height: 360)}
 
@@ -14,8 +14,8 @@ defmodule Mix.Tasks.Charts do
 
       ![Fig. 1 — Heavier cars go fewer miles per gallon](/charts/2026-11-03-first-stitches/mtcars.svg)
 
-  `Giggleton.Blog` inlines the SVG into the post at compile time. Commit the script and its
-  SVGs together, so the page never draws a chart on request.
+  `Giggleton.Blog` and `Giggleton.Residents` inline the SVG into the page at compile time.
+  Commit the script and its SVGs together, so the page never draws a chart on request.
 
   A script is rerun when it is newer than its charts, or when there are none.
 
@@ -32,7 +32,9 @@ defmodule Mix.Tasks.Charts do
   def run(args) do
     {opts, filters} = OptionParser.parse!(args, strict: [force: :boolean])
 
-    Mix.Task.run("app.config")
+    # Load the dependencies without compiling the site, which can't compile until a post's
+    # new chart exists. Scripts may call Giggly and other dependencies, never the site.
+    Mix.Task.run("loadpaths")
     {:ok, _} = Application.ensure_all_started(:giggly)
 
     scripts =

@@ -59,6 +59,10 @@ defmodule Giggleton.Blog do
     end
   end
 
+  @doc "Posts about the resident with this id, newest first; none is an empty list."
+  @spec posts_about(atom()) :: [Post.t()]
+  def posts_about(resident), do: Enum.filter(@posts, &(resident in &1.residents))
+
   @doc "The posts either side of `post`, as `{older, newer}`; either may be nil."
   def neighbours(%Post{entry: entry}) do
     index = length(@posts) - entry

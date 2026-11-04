@@ -52,7 +52,36 @@ image alone in its paragraph, with the caption as alt text:
 ![Fig. 1 — Heavier cars go fewer miles per gallon](/charts/2026-11-03-first-stitches/mtcars.svg)
 ```
 
-The SVG is inlined into the page at compile time, in the stitched frame.
+The SVG is inlined into the page at compile time, in the stitched frame. A chart that hasn't
+been drawn yet is a compile warning and a placeholder in dev, and fails a prod build.
+
+## The residents
+
+Each package is a resident, with a page at `/residents/<package>` from
+`priv/content/residents/<package>.md` and a 24×24 stitch pattern of the same name in
+`priv/patterns/`. The front matter is the card and the plate beside the page:
+
+```elixir
+%{
+  name: "Scales",
+  species: "chameleon",
+  vocation: "Keeps the weights, measures and palettes.",
+  home: "Weights & measures",
+  thread: :green,
+  says: "Nice breaks, those. Minor ones too, if you want them.",
+  install: ~s({:scales, "~> 0.1"}),
+  docs: "https://hexdocs.pm/scales",
+  source: "https://github.com/giggleton/scales",
+  order: 3
+}
+---
+Scales keeps the village's weights, measures and palettes: the `scales` package, ...
+```
+
+The body opens with the full vocation as its lede, then says what they do, then the API.
+`docs` can be left out for a package not on Hex. A resident's charts work as a post's do,
+from a script named after them, such as `priv/charts/giggly.exs`. A post's `residents` may
+name anyone with a page here.
 
 ## Where things are
 

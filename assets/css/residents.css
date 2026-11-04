@@ -1,0 +1,52 @@
+/* The residents: their cards, the workshop page and the plate beside it. Colours and sizes
+   come from tokens.css. */
+
+/* ---- Resident card: the whole card is the link ---- */
+
+.residents > li { display: flex; }
+.resident { flex: 1; color: var(--ink); text-decoration: none; }
+.resident :is(h2, h3) { font: var(--text-title); letter-spacing: 0.01em; margin: 0; text-underline-offset: 4px; }
+.resident .pixel { transition: transform 160ms ease-out; }
+.resident:hover :is(h2, h3) { text-decoration: underline dotted 2px var(--thread-red); }
+.resident:hover .pixel { transform: translateY(-3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .resident .pixel { transition: none; }
+}
+
+/* ---- A resident's thread, for their plate's stitches and the bar beside what they say ---- */
+
+.stitched.red { --resident-thread: var(--thread-red); }
+.stitched.blue { --resident-thread: var(--thread-blue); }
+.stitched.green { --resident-thread: var(--thread-green); }
+.stitched.gold { --resident-thread: var(--thread-gold); }
+.stitched.brown { --resident-thread: var(--thread-brown); }
+.stitched.gold::before, .stitched.brown::before { background: var(--resident-thread); }
+
+/* ---- The workshop: the page and its plate ---- */
+
+.workshop { display: grid; grid-template-columns: minmax(0, 1fr) 224px; gap: 40px; align-items: start; }
+
+.plate { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-2); }
+.plate .pixel { margin: 0 auto; }
+
+.plate .says { margin: 0; padding: var(--space-2); background: var(--cloth-sunken); box-shadow: inset 4px 0 0 var(--resident-thread); font-size: 15px; line-height: 22px; }
+.plate .says p { margin: 0; }
+
+.facts { display: grid; gap: var(--space-2); margin: 0; }
+.facts dt { font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+.facts dd { margin: 0; }
+.facts code { font: var(--text-code); font-size: 13px; line-height: 20px; font-variant-ligatures: none; background: var(--cloth-sunken); padding: 1px 5px; }
+.facts .install { display: block; padding: var(--space-1); white-space: pre-wrap; }
+
+.plate-links { display: grid; gap: var(--space-1); list-style: none; margin: 0; padding: 0; font: var(--text-small); }
+
+/* ---- The diary entries a resident appears in ---- */
+
+.resident-diary { margin-top: 56px; max-width: calc(var(--measure) + 80px); }
+.resident-diary .empty { margin: 0; color: var(--ink-muted); }
+
+@media (max-width: 760px) {
+  .workshop { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .resident-diary { margin-top: var(--space-6); }
+}

@@ -13,8 +13,9 @@ defmodule Giggleton.Blog.Post do
       }
 
   `title` and `description` are required. The description is the excerpt in post lists and
-  the page's meta description. `residents` and `tags` default to none. A misspelt key, an
-  unknown resident or a tag that isn't lowercase-and-hyphens fails the build.
+  the page's meta description. `residents` and `tags` default to none. A misspelt key, a
+  resident with no file under `priv/content/residents`, or a tag that isn't
+  lowercase-and-hyphens fails the build.
 
   Charts referenced as `/charts/...svg` images are inlined by `Giggleton.Blog.Figures`, and
   the files read are kept in `charts` so the blog recompiles when one is redrawn.
@@ -38,7 +39,6 @@ defmodule Giggleton.Blog.Post do
     charts: []
   ]
 
-  @residents [:giggly, :pica, :scales]
   @kebab ~r/\A[a-z0-9]+(-[a-z0-9]+)*\z/
 
   @doc false
@@ -52,10 +52,12 @@ defmodule Giggleton.Blog.Post do
     check!(path, is_binary(post.title), "title must be a string")
     check!(path, is_binary(post.description), "description must be a string")
 
+    residents = Giggleton.Residents.ids()
+
     check!(
       path,
-      Enum.all?(post.residents, &(&1 in @residents)),
-      "residents must be in #{inspect(@residents)}"
+      Enum.all?(post.residents, &(&1 in residents)),
+      "residents must be in #{inspect(residents)}"
     )
 
     check!(
@@ -66,9 +68,6 @@ defmodule Giggleton.Blog.Post do
 
     post
   end
-
-  @doc "The residents a post may name."
-  def residents, do: @residents
 
   defp date_and_slug!(path) do
     with [year, month_day_slug] <- path |> Path.rootname() |> Path.split() |> Enum.take(-2),

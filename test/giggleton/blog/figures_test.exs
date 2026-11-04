@@ -31,9 +31,23 @@ defmodule Giggleton.Blog.FiguresTest do
     assert Figures.inline(html, "post.md") == {html, []}
   end
 
-  test "a missing chart fails the build and says how to draw it" do
-    html = ~s(<p><img src="/charts/nowhere/missing.svg" alt="Fig. 9" /></p>)
+  describe "a missing chart" do
+    @missing ~s(<p><img src="/charts/nowhere/missing.svg" alt="Fig. 9" /></p>)
 
-    assert_raise ArgumentError, ~r/run mix charts/, fn -> Figures.inline(html, "post.md") end
+    test "fails a prod build and says how to draw it" do
+      assert_raise ArgumentError, ~r/run mix charts/, fn ->
+        Figures.inline(@missing, "post.md", :raise)
+      end
+    end
+
+    test "elsewhere warns and leaves a placeholder, still tracking the file" do
+      {result, warning} =
+        ExUnit.CaptureIO.with_io(:stderr, fn -> Figures.inline(@missing, "post.md", :warn) end)
+
+      assert {html, ["priv/static/charts/nowhere/missing.svg"]} = result
+      assert warning =~ "run mix charts"
+      assert html =~ ~s(class="chart-missing")
+      assert html =~ ~s(<figcaption id="fig-missing">Fig. 9</figcaption>)
+    end
   end
 end

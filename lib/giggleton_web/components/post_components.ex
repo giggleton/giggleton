@@ -79,5 +79,5 @@ defmodule GiggletonWeb.PostComponents do
   def format_date(date, false), do: Calendar.strftime(date, "%-d %b")
   def format_date(date, true), do: Calendar.strftime(date, "%-d %b %Y")
 
-  defp resident_name(resident), do: resident |> Atom.to_string() |> String.capitalize()
+  defp resident_name(id), do: Giggleton.Residents.get_resident!(id).name
 end
