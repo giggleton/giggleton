@@ -10,6 +10,12 @@ defmodule GiggletonWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  # The feed and sitemap need no session or CSRF token.
+  scope "/", GiggletonWeb do
+    get "/feed.xml", FeedController, :atom
+    get "/sitemap.xml", FeedController, :sitemap
+  end
+
   scope "/", GiggletonWeb do
     pipe_through :browser
 

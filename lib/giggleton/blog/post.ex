@@ -20,7 +20,9 @@ defmodule Giggleton.Blog.Post do
   Charts referenced as `/charts/...svg` images are inlined by `Giggleton.Blog.Figures`, and
   the files read are kept in `charts` so the blog recompiles when one is redrawn. The body is
   then split at its live demo markers into `segments` by `Giggleton.Blog.Segments`; the post
-  page renders those, and `body` keeps the whole HTML.
+  page renders those, and `body` keeps the whole HTML. `feed_body` is the HTML as Markdown
+  made it, before any of that: charts still images, demo markers still comments. The feed
+  starts from it.
 
   `entry` is the post's place in the diary, counted from the first post, and is filled in
   by `Giggleton.Blog` once every post is read.
@@ -39,7 +41,8 @@ defmodule Giggleton.Blog.Post do
     residents: [],
     tags: [],
     charts: [],
-    segments: []
+    segments: [],
+    feed_body: ""
   ]
 
   @kebab ~r/\A[a-z0-9]+(-[a-z0-9]+)*\z/
@@ -49,14 +52,9 @@ defmodule Giggleton.Blog.Post do
     {date, slug} = date_and_slug!(path)
 
     post = struct!(__MODULE__, [slug: slug, date: date, body: body] ++ Map.to_list(attrs))
-    {body, charts} = Giggleton.Blog.Figures.inline(body, path)
-
-    post = %{
-      post
-      | body: body,
-        charts: charts,
-        segments: Giggleton.Blog.Segments.split(body, path)
-    }
+    {inlined, charts} = Giggleton.Blog.Figures.inline(body, path)
+    segments = Giggleton.Blog.Segments.split(inlined, path)
+    post = %{post | body: inlined, charts: charts, segments: segments, feed_body: body}
 
     check!(path, is_binary(post.title), "title must be a string")
     check!(path, is_binary(post.description), "description must be a string")

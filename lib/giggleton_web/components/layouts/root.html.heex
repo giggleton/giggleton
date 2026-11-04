@@ -7,6 +7,7 @@
     <meta :if={assigns[:page_description]} name="description" content={@page_description} />
     <.live_title default="Giggleton" suffix=" · Giggleton" phx-no-format>{assigns[:page_title]}</.live_title>
     <link rel="icon" type="image/svg+xml" href={~p"/images/favicon.svg"} />
+    <link rel="alternate" type="application/atom+xml" title="Giggleton" href={~p"/feed.xml"} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

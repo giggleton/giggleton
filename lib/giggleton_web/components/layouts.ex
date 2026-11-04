@@ -54,6 +54,7 @@ defmodule GiggletonWeb.Layouts do
       <footer class="site-footer">
         Giggleton: charts drawn by Giggly, letters measured by Pica, breaks kept by Scales.
         <a href="https://github.com/giggleton">The village on GitHub</a>
+        · <a href={~p"/feed.xml"}>Feed</a>
       </footer>
     </div>
 
