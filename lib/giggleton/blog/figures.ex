@@ -47,7 +47,10 @@ defmodule Giggleton.Blog.Figures do
     svg =
       case {File.read(file(src)), missing} do
         {{:ok, svg}, _} ->
-          prepare(svg, id, src, post_path)
+          case scalable(svg, id) do
+            {:ok, svg} -> svg
+            {:error, reason} -> raise ArgumentError, "#{post_path}: #{src} #{reason}"
+          end
 
         {{:error, _}, :raise} ->
           raise ArgumentError, "#{post_path}: no chart at #{file(src)}; run mix charts"
@@ -65,20 +68,35 @@ defmodule Giggleton.Blog.Figures do
     """
   end
 
-  defp prepare(svg, id, src, post_path) do
-    svg = svg |> String.replace(~r{<\?xml.*?\?>|<!DOCTYPE[^>]*>}s, "") |> String.trim()
+  @doc """
+  An SVG made ready to sit in a chart frame: its XML prologue and fixed `width` and `height`
+  dropped so it scales by its `viewBox`, and labelled by the caption with id `caption_id`.
+  Live demos use it on each SVG they draw.
+  """
+  @spec scalable(iodata(), String.t()) :: {:ok, String.t()} | {:error, String.t()}
+  def scalable(svg, caption_id) do
+    svg =
+      svg
+      |> IO.iodata_to_binary()
+      |> String.replace(~r{<\?xml.*?\?>|<!DOCTYPE[^>]*>}s, "")
+      |> String.trim()
 
-    [tag] = Regex.run(@svg_tag, svg) || raise ArgumentError, "#{post_path}: #{src} is not an SVG"
+    case Regex.run(@svg_tag, svg) do
+      nil ->
+        {:error, "is not an SVG"}
 
-    unless tag =~ "viewBox",
-      do: raise(ArgumentError, "#{post_path}: #{src} has no viewBox, so it can't scale")
+      [tag] ->
+        if tag =~ "viewBox" do
+          new_tag =
+            tag
+            |> String.replace(@size_attr, "")
+            |> String.replace_suffix(">", ~s( role="img" aria-labelledby="#{caption_id}">))
 
-    new_tag =
-      tag
-      |> String.replace(@size_attr, "")
-      |> String.replace_suffix(">", ~s( role="img" aria-labelledby="#{id}">))
-
-    String.replace(svg, tag, new_tag, global: false)
+          {:ok, String.replace(svg, tag, new_tag, global: false)}
+        else
+          {:error, "has no viewBox, so it can't scale"}
+        end
+    end
   end
 
   defp file("/" <> src), do: Path.join(@static, src)

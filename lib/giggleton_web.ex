@@ -83,6 +83,7 @@ defmodule GiggletonWeb do
       import GiggletonWeb.CoreComponents
       import GiggletonWeb.PixelArt
       import GiggletonWeb.PostComponents
+      import GiggletonWeb.DemoComponents
       import GiggletonWeb.ResidentComponents
 
       # Common modules used in templates

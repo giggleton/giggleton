@@ -1,5 +1,8 @@
 defmodule GiggletonWeb.PostLive do
-  @moduledoc "One diary entry, with links to the entries either side."
+  @moduledoc """
+  One diary entry, with links to the entries either side. The post is rendered from its
+  segments, so each live demo it marks is mounted in place as a `GiggletonWeb.Demos` component.
+  """
   use GiggletonWeb, :live_view
 
   alias Giggleton.Blog
@@ -29,7 +32,16 @@ defmodule GiggletonWeb.PostLive do
           <h1 id="post-title">{@post.title}</h1>
         </header>
 
-        <div class="prose">{raw(@post.body)}</div>
+        <div class="prose">
+          <%= for segment <- @post.segments do %>
+            <%= case segment do %>
+              <% {:html, html} -> %>
+                {raw(html)}
+              <% {:demo, module, id} -> %>
+                <.live_component module={module} id={id} />
+            <% end %>
+          <% end %>
+        </div>
 
         <footer :if={@post.tags != []} class="post-footer">
           <.tag_list id="post-tags" tags={@post.tags} aria-label="Tags" />

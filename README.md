@@ -55,6 +55,19 @@ image alone in its paragraph, with the caption as alt text:
 The SVG is inlined into the page at compile time, in the stitched frame. A chart that hasn't
 been drawn yet is a compile warning and a placeholder in dev, and fails a prod build.
 
+### Live demos
+
+A live chart is a `Phoenix.LiveComponent` under `GiggletonWeb.Demos`, in
+`lib/giggleton_web/demos/`, that draws with Giggly and renders in `<.demo_frame>`. A post
+mounts one with a marker on a line of its own, between paragraphs:
+
+```markdown
+<!-- demo: Bins -->
+```
+
+A test fails if a marker names a demo that doesn't exist. The demo also renders on the first
+request, so a reader without a socket still sees the chart in its starting state.
+
 ## The residents
 
 Each package is a resident, with a page at `/residents/<package>` from
