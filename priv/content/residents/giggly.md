@@ -5,7 +5,8 @@
   home: "The garden plots",
   thread: :brown,
   says: "Map it to a bed first, then we'll see how it grows.",
-  install: ~s({:giggly, github: "giggleton/giggly"}),
+  install: ~s({:giggly, "~> 0.1"}),
+  docs: "https://hexdocs.pm/giggly",
   source: "https://github.com/giggleton/giggly",
   order: 1
 }
@@ -30,8 +31,8 @@ out:
 - **Themes** are ggplot2's own: gray, bw, classic, minimal, light, dark, linedraw and void.
 
 Giggly draws SVG, for a LiveView, a Livebook or a static page like this one. When Pica is in
-the project, Giggly drops by the press for the width of every label, so the text sits where
-the font puts it.
+the project and holds a chart's fonts, Giggly drops by the press to measure every label, then
+draws it in the font's own outlines. [Pica's page](/residents/pica) shows a chart set that way.
 
 ## The API
 
@@ -65,5 +66,3 @@ Giggly.Datasets.mpg()
   against ggplot2's.
 - `Giggly.Datasets` holds ggplot2's example tables: `mtcars`, `mpg`, `diamonds`, `economics`
   and `txhousing`.
-
-Giggly isn't on Hex yet. Take it from GitHub, pinned to a commit with `ref:`.

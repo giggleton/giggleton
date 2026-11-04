@@ -37,6 +37,7 @@ defmodule Giggleton.ResidentsTest do
 
     assert giggly.body =~ ~s(<figure class="stitched chart-frame")
     assert giggly.charts == ["priv/static/charts/giggly/garden.svg"]
+    assert Residents.get_resident!(:pica).charts == ["priv/static/charts/pica/press.svg"]
   end
 
   test "posts about a resident are those that name them" do

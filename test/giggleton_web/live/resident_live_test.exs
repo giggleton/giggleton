@@ -31,11 +31,12 @@ defmodule GiggletonWeb.ResidentLiveTest do
     assert has_element?(view, "#resident-plate a[href='https://github.com/giggleton/pica']")
   end
 
-  test "a resident not on Hex has no documentation link", %{conn: conn} do
-    {:ok, view, _html} = live(conn, ~p"/residents/giggly")
+  test "Giggly's and Pica's pages show the charts their examples draw", %{conn: conn} do
+    for id <- ["giggly", "pica"] do
+      {:ok, view, _html} = live(conn, ~p"/residents/#{id}")
 
-    refute has_element?(view, "#resident-plate a", "Documentation")
-    assert has_element?(view, "#resident figure.chart-frame svg")
+      assert has_element?(view, "#resident figure.chart-frame svg[role='img']")
+    end
   end
 
   test "a resident's page lists the diary entries about them", %{conn: conn} do

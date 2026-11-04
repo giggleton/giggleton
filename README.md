@@ -120,8 +120,9 @@ run it. `/sitemap.xml` lists every page. Both use the host in `PHX_HOST` for the
 
 ## Dependencies
 
-Giggly isn't on Hex yet, so `mix.exs` pins it to a commit on GitHub. Bump the `ref` when the
-site needs newer Giggly features, after pushing them.
+Giggly and Pica come from Hex, and Scales comes with Giggly. Pica is optional in Giggly; the
+site lists it so chart scripts can register fonts for Giggly to measure and draw text in. Those
+fonts are in `priv/charts/fonts/`, read only by `mix charts`.
 
 ## Deploying
 
