@@ -66,7 +66,8 @@ defmodule GiggletonWeb.Layouts do
     [
       {:home, "Home", ~p"/"},
       {:posts, "Posts", ~p"/posts"},
-      {:residents, "Residents", ~p"/residents"}
+      {:residents, "Residents", ~p"/residents"},
+      {:about, "About", ~p"/about"}
     ]
   end
 

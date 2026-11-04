@@ -26,6 +26,7 @@ defmodule GiggletonWeb.Router do
       live "/tags/:tag", TagLive
       live "/residents", ResidentIndexLive
       live "/residents/:id", ResidentLive
+      live "/about", PageLive, :about
     end
   end
 end

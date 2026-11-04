@@ -1,12 +1,12 @@
 defmodule GiggletonWeb.Feeds.Sitemap do
   @moduledoc """
   Every page on the site, for search engines: the home page, the diary, each post and tag,
-  and the residents. A post's last change is its date; a list's is its newest post's.
+  the residents, and the standalone pages such as About. A post's last change is its date; a list's is its newest post's.
   """
 
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
 
-  alias Giggleton.{Blog, Residents}
+  alias Giggleton.{Blog, Pages, Residents}
 
   @doc "The sitemap for the site at `base_url`, with no trailing slash."
   @spec render(String.t()) :: String.t()
@@ -18,7 +18,8 @@ defmodule GiggletonWeb.Feeds.Sitemap do
         Enum.map(Blog.all_posts(), &{"/posts/#{&1.slug}", &1.date}) ++
         Enum.map(Blog.all_tags(), &{"/tags/#{&1}", newest_date(Blog.posts_tagged!(&1))}) ++
         [{"/residents", nil}] ++
-        Enum.map(Residents.all_residents(), &{"/residents/#{&1.id}", nil})
+        Enum.map(Residents.all_residents(), &{"/residents/#{&1.id}", nil}) ++
+        Enum.map(Pages.all_pages(), &{"/#{&1.slug}", nil})
 
     """
     <?xml version="1.0" encoding="utf-8"?>

@@ -113,7 +113,9 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 @media (max-width: 760px) {
   .page { padding: 0 var(--space-2) var(--space-6); }
   .masthead-bar .name { font-size: 22px; }
-  .site-nav { margin-left: 0; width: 100%; }
+  .site-nav { margin-left: 0; width: 100%; gap: 0; flex-wrap: wrap; }
+  .tab { padding: var(--space-1) 10px; }
+  .theme-toggle { margin-left: auto; }
   .hero { grid-template-columns: 1fr; gap: var(--space-6); padding-top: var(--space-3); }
   .residents { grid-template-columns: 1fr; gap: var(--space-4); }
 }

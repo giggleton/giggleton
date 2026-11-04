@@ -96,6 +96,12 @@ The body opens with the full vocation as its lede, then says what they do, then 
 from a script named after them, such as `priv/charts/giggly.exs`. A post's `residents` may
 name anyone with a page here.
 
+## Pages
+
+Standalone pages, such as About, are `priv/content/pages/<slug>.md`, with a `title` and a
+`description` in their front matter. Each needs a route, `live "/<slug>", PageLive, :<slug>`;
+a test fails for a page without one.
+
 ## Feed and sitemap
 
 `/feed.xml` is an Atom feed of every post. Charts go in as `<img>` tags pointing at the

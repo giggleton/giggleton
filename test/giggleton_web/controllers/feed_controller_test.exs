@@ -51,7 +51,8 @@ defmodule GiggletonWeb.FeedControllerTest do
       ["/posts", "/residents"] ++
         Enum.map(Blog.all_posts(), &"/posts/#{&1.slug}") ++
         Enum.map(Blog.all_tags(), &"/tags/#{&1}") ++
-        Enum.map(Residents.ids(), &"/residents/#{&1}")
+        Enum.map(Residents.ids(), &"/residents/#{&1}") ++
+        Enum.map(Giggleton.Pages.all_pages(), &"/#{&1.slug}")
 
     assert url(~p"/") in locs
     for path <- paths, do: assert((url(~p"/") <> String.trim_leading(path, "/")) in locs)
