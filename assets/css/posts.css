@@ -28,8 +28,15 @@
 .read-on:hover .pixel { transform: translateX(3px); }
 .read-on .px-k, .post-neighbours .px-k { fill: currentColor; }
 
-/* The home page's latest-entry panel is narrower and its text smaller. */
-.entry .post-card p:not(.kicker) { font-size: 15px; line-height: 22px; }
+/* ---- Post rows: the compact index on the home page ---- */
+
+.post-row { display: grid; grid-template-columns: 152px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-3) 0; }
+.post-row + .post-row { border-top: var(--running-stitch) var(--ink-muted); }
+.post-row .heads { display: flex; gap: var(--space-1); }
+.post-row h3 { font: var(--text-title); letter-spacing: 0.01em; text-transform: uppercase; margin: 0; }
+.post-row h3 a { color: var(--ink); text-decoration: none; }
+.post-row h3 a:hover { text-decoration: underline dotted 2px; text-underline-offset: 4px; text-decoration-color: var(--thread-red); }
+.post-row h3 + p { margin: 4px 0 0; font-size: 15px; line-height: 22px; color: var(--ink-muted); max-width: var(--measure); }
 
 /* ---- Tags ---- */
 
@@ -100,4 +107,7 @@
   .page-intro { padding-top: var(--space-3); }
   .listing { grid-template-columns: 1fr; gap: var(--space-6); }
   .post, .post-list { padding: var(--space-3) var(--space-2); }
+  .post-row { grid-template-columns: 1fr; gap: var(--space-1); }
+  .post-row-meta { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+  .post-row-meta .kicker { margin: 0; }
 }

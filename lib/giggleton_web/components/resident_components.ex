@@ -1,7 +1,7 @@
 defmodule GiggletonWeb.ResidentComponents do
   @moduledoc """
-  The resident card, shared by the home page and the Residents index, and the plate that
-  sits beside a resident's reference page.
+  The resident card for the Residents index, the quieter one-line resident for the home page,
+  and the plate that sits beside a resident's reference page.
   """
   use Phoenix.Component
 
@@ -34,6 +34,28 @@ defmodule GiggletonWeb.ResidentComponents do
         <p>{@resident.vocation}</p>
         <span class="tag">{@resident.id} · {@resident.home}</span>
       </div>
+    </.link>
+    """
+  end
+
+  @doc """
+  A resident on one line, for places where they should stay quiet: a small portrait, their
+  name and vocation, no panel. The whole line links to their reference page.
+  """
+  attr :resident, Resident, required: true
+
+  def resident_line(assigns) do
+    ~H"""
+    <.link
+      id={"resident-#{@resident.id}"}
+      navigate={~p"/residents/#{@resident.id}"}
+      class="resident-line"
+    >
+      <.pixel_art name={Atom.to_string(@resident.id)} size={48} />
+      <span>
+        <span class="name">{@resident.name}</span>
+        <span class="vocation">{@resident.vocation}</span>
+      </span>
     </.link>
     """
   end

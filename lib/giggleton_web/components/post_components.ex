@@ -1,7 +1,7 @@
 defmodule GiggletonWeb.PostComponents do
   @moduledoc """
   The pieces every post list and post page share: the kicker with date, entry number and
-  residents, the post card, and the tag list.
+  residents, the post card, the compact post row, and the tag list.
   """
   use Phoenix.Component
 
@@ -49,6 +49,41 @@ defmodule GiggletonWeb.PostComponents do
       <.link navigate={~p"/posts/#{@post.slug}"} class="read-on" aria-hidden="true" tabindex="-1">
         Read on <.pixel_art name="arrow" size={16} />
       </.link>
+    </article>
+    """
+  end
+
+  @doc """
+  A post as one row of a compact index: date and entry number with the residents drawn small
+  on the left, then the linked title and the description on the right. The home page lists
+  the entries before the latest this way.
+  """
+  attr :post, Giggleton.Blog.Post, required: true
+  attr :id, :string, required: true
+
+  def post_row(assigns) do
+    ~H"""
+    <article id={@id} class="post-row" aria-labelledby={"#{@id}-title"}>
+      <div class="post-row-meta">
+        <p class="kicker">
+          <time datetime={Date.to_iso8601(@post.date)}>{format_date(@post.date, false)}</time>
+          · Entry {@post.entry}
+        </p>
+        <span class="heads">
+          <.pixel_art
+            :for={resident <- @post.residents}
+            name={Atom.to_string(resident)}
+            size={24}
+            label={resident_name(resident)}
+          />
+        </span>
+      </div>
+      <div>
+        <h3 id={"#{@id}-title"}>
+          <.link navigate={~p"/posts/#{@post.slug}"}>{@post.title}</.link>
+        </h3>
+        <p>{@post.description}</p>
+      </div>
     </article>
     """
   end

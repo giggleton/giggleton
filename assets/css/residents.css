@@ -10,8 +10,18 @@
 .resident:hover :is(h2, h3) { text-decoration: underline dotted 2px var(--thread-red); }
 .resident:hover .pixel { transform: translateY(-3px); }
 
+/* ---- Resident line: portrait at 48, name and vocation, no panel; the home page's band ---- */
+
+.resident-line { display: flex; gap: var(--space-2); align-items: center; color: var(--ink); text-decoration: none; }
+.resident-line > span > span { display: block; }
+.resident-line .name { font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; }
+.resident-line .vocation { font: var(--text-caption); color: var(--ink-muted); max-width: 14em; }
+.resident-line .pixel { transition: transform 160ms ease-out; }
+.resident-line:hover .name { text-decoration: underline dotted 2px var(--thread-red); text-underline-offset: 3px; }
+.resident-line:hover .pixel { transform: translateY(-2px); }
+
 @media (prefers-reduced-motion: reduce) {
-  .resident .pixel { transition: none; }
+  .resident .pixel, .resident-line .pixel { transition: none; }
 }
 
 /* ---- A resident's thread, for their plate's stitches and the bar beside what they say ---- */
