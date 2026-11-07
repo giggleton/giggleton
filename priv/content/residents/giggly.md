@@ -1,7 +1,7 @@
 %{
   name: "Giggly",
   species: "hyena",
-  vocation: "Keeps the village garden plots.",
+  vocation: "Keeps the village plots.",
   home: "The garden plots",
   thread: :brown,
   says: "Map it to a bed first, then we'll see how it grows.",
@@ -11,33 +11,33 @@
   order: 1
 }
 ---
-Giggly keeps the village garden plots: the `giggly` package, a grammar-of-graphics plotting
+Giggly keeps the village plots: the `giggly` package, a grammar-of-graphics plotting
 library for Elixir, modelled on R's ggplot2.
 
 ## What Giggly does
 
-The garden plots are on the sunny side of the village, with a shed full of string and labels.
-Bring Giggly a table of numbers and it comes back as a plot, laid out the way ggplot2 lays one
+The plots are on the sunny side of the village, with a shed full of string and labels.
+Bring Giggly a table of numbers and it gives back plot, laid out the way ggplot2 lays one
 out:
 
-- **Data** is any table: a list of maps, a map of columns or an Explorer data frame.
+- **Data** is anything that implements Table.Reader. 
 - **A mapping** says which column goes along, which goes up and which picks the colour, like
   a seed packet assigned to a bed.
 - **Layers** are planted one over another: points, lines, paths, areas, ribbons, bars,
   histograms, densities, boxplots, smooths and text.
 - **Scales** train each mapping to the data: continuous, log, square root, reversed, dated and
-  discrete, with ggplot2's hues, gradients, greys and viridis.
+  discrete, with ggplot2's hues, gradients, greys and other palettes.
 - **Facets** fence the plot into panels, one for each value of a column, or a grid of two.
 - **Themes** are ggplot2's own: gray, bw, classic, minimal, light, dark, linedraw and void.
 
-Giggly draws SVG, for a LiveView, a Livebook or a static page like this one. When Pica is in
-the project and holds a chart's fonts, Giggly drops by the press to measure every label, then
-draws it in the font's own outlines. [Pica's page](/residents/pica) shows a chart set that way.
+Giggly draws SVG for a LiveBook, a LiveView or a static page like this one. Optionally Giggly
+can ask his friend Pica to measure every label using the right font metrics. [Pica's page](/residents/pica)
+shows a chart set that way.
 
 ## The API
 
-A plot is a value built with a pipe. `Giggly.Plot` describes it and draws nothing; the
-functions in `Giggly` run it.
+`Giggly.Plot` builds a plot specification. Giggly uses that specification to calculate the attributes of the
+plots elements and their layout, and then draw the plot. 
 
 ```elixir
 alias Giggly.Plot
@@ -61,8 +61,6 @@ Giggly.Datasets.mpg()
 - `geom_*` and `stat_*` add layers; `scale_*`, `lims/2` and `guides/2` set the scales and
   legends; `facet_wrap/3` and `facet_grid/3` split the panels; `labs/2` names things; and
   `theme_*` and `theme/2` dress the plot.
-- `Giggly.to_svg/2` draws the plot. `Giggly.layer_data/2` shows the table a layer computes,
-  and `Giggly.panel_scales/2` the scales a panel is drawn on, which is how a plot is checked
-  against ggplot2's.
-- `Giggly.Datasets` holds ggplot2's example tables: `mtcars`, `mpg`, `diamonds`, `economics`
+- `Giggly.to_svg/2` draws the plot. 
+- `Giggly.Datasets` holds ggplot2's example datasets, like `mtcars`, `diamonds`, `economics`
   and `txhousing`.
