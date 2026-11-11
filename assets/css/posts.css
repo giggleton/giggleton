@@ -48,7 +48,9 @@
 /* ---- One post ---- */
 
 .post { max-width: calc(var(--measure) + 80px); padding: var(--space-4) 40px; box-sizing: border-box; }
-.post h1 { font: var(--text-title); letter-spacing: 0.01em; margin: var(--space-1) 0 var(--space-4); }
+.post h1 { font: var(--text-display); letter-spacing: 0.02em; margin: var(--space-1) 0 var(--space-4); }
+/* A step up from the kicker in lists, as the title and headings are on a post's own page. */
+.post .post-kicker { font: var(--text-heading); letter-spacing: 0.04em; }
 
 .post-footer { margin-top: var(--space-6); padding-top: var(--space-3); border-top: var(--running-stitch) var(--ink-muted); }
 
@@ -63,11 +65,10 @@
 
 /* ---- Prose: the compiled Markdown of a post ---- */
 
-.prose { max-width: var(--measure); }
+.prose { max-width: var(--measure); font: var(--text-lede); }
 .prose > :first-child { margin-top: 0; }
-.prose > p:first-child { font: var(--text-lede); }
 .prose p, .prose ul, .prose ol, .prose blockquote, .prose pre, .prose table, .prose figure { margin: 0 0 var(--space-3); }
-.prose h2, .prose h3 { font: var(--text-heading); letter-spacing: 0.04em; text-transform: uppercase; margin: var(--space-6) 0 var(--space-2); }
+.prose h2, .prose h3 { font: var(--text-title); letter-spacing: 0.02em; text-transform: uppercase; margin: var(--space-6) 0 var(--space-2); }
 .prose h3 { color: var(--ink-muted); }
 .prose ul, .prose ol { padding-left: var(--space-3); }
 .prose ul { list-style: square; }

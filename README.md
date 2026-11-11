@@ -30,7 +30,7 @@ Add `priv/content/posts/YYYY/MM-DD-slug.md`. The path gives the date and the add
   tags: ["breaks", "log-scales"]
 }
 ---
-The first paragraph is the lede.
+The body, in Markdown.
 ```
 
 A misspelt key, an unknown resident or a tag that isn't lowercase-and-hyphens fails the build.

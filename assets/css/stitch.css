@@ -90,7 +90,7 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 
 /* The greeting and the lede side by side, the lede sitting on the greeting's baseline. */
 .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; padding: 40px 0 var(--space-6); }
-.hero h1 { font: var(--text-display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--thread-blue); margin: 0; }
+.hero h1 { font: var(--text-greeting); letter-spacing: 0.02em; text-transform: uppercase; color: var(--thread-blue); margin: 0; }
 
 /* The latest entry: the post card at full width, its title a size up and its description as a lede. */
 .featured { padding: var(--space-4) 40px; }
@@ -135,9 +135,14 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 
 /* ---- Narrow screens ---- */
 
+/* The masthead name a size down below 840px: at full size it pushes the nav tabs onto a second
+   row until about 812px, and the narrow layout below starts at 760px. */
+@media (max-width: 840px) {
+  .masthead-bar .name { font-size: 28px; line-height: 32px; }
+}
+
 @media (max-width: 760px) {
   .page { padding: 0 var(--space-2) var(--space-6); }
-  .masthead-bar .name { font-size: 22px; }
   .site-nav { margin-left: 0; width: 100%; gap: 0; flex-wrap: wrap; }
   .tab { padding: var(--space-1) 10px; }
   .theme-toggle { margin-left: auto; }

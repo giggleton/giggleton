@@ -1,0 +1,132 @@
+# When(ish) is my bus? Quantile dotplots with Giggly
+
+```elixir
+Mix.install([
+  # geom_dotplot/3 is newer than Giggly 0.1.0 on Hex.
+  {:giggly, github: "giggleton/giggly"},
+  {:kino, "~> 0.19"}
+])
+
+alias Giggly.Plot
+
+render = fn plot ->
+  plot
+  |> Giggly.to_svg(width: 560, height: 160)
+  |> IO.iodata_to_binary()
+  |> Kino.Image.new(:svg)
+end
+```
+
+## About this notebook
+
+This is the companion to Giggleton's post "When(ish) is my bus?". It draws a *quantile dotplot*:
+a prediction shown as a handful of dots, each one an equal share of the chance, so that a reader
+can answer "how likely is it?" by counting. The idea comes from Kay, Kola, Hullman and Munson,
+[When (ish) is My Bus?](https://mucollective.northwestern.edu/project/when-ish-is-my-bus)
+(CHI 2016).
+
+## A prediction
+
+The app thinks the bus is about 10 minutes away, and it is likelier to run late than early. We
+describe that with a log-normal distribution: half of buses like this one arrive within `median`
+minutes, and `spread` says how far either side the rest fall. Change them and rerun the cells
+below.
+
+```elixir
+median = 10.0
+spread = 0.3
+
+# You have to leave by minute 8 to get coffee and be back in time.
+leave_by = 8.0
+```
+
+The usual way to draw a prediction is its density: the higher the curve, the likelier the bus
+comes then.
+
+```elixir
+density = fn minutes ->
+  z = (:math.log(minutes) - :math.log(median)) / spread
+  :math.exp(-z * z / 2) / (minutes * spread * :math.sqrt(2 * :math.pi()))
+end
+
+Plot.new()
+|> Plot.geom_function(fun: density, geom: :area, xlim: {0.1, 25}, n: 201, fill: "#0072B2")
+|> Plot.geom_vline(xintercept: leave_by, linetype: :dashed)
+|> Plot.scale_x_continuous(limits: {0, 25})
+|> Plot.scale_y_continuous(name: :none, breaks: :none)
+|> Plot.labs(x: "Minutes until the bus arrives")
+|> render.()
+```
+
+What's the chance the bus comes before you'd have to leave? It's the area left of the dashed
+line, and nobody can judge an area by eye.
+
+## From a curve to dots
+
+A quantile dotplot asks the distribution's quantile function for evenly spaced shares: with 20
+dots, the times by which 2.5%, 7.5%, 12.5% … 97.5% of buses have come. Each time is a dot, and
+each dot is a 1-in-20 chance. The log-normal's quantile function comes from the normal's, which
+is built on the inverse error function, and Nx has that.
+
+```elixir
+quantiles = fn count ->
+  shares =
+    1..count
+    |> Enum.map(fn i -> (i - 0.5) / count end)
+    |> Nx.tensor()
+
+  z =
+    shares
+    |> Nx.multiply(2)
+    |> Nx.subtract(1)
+    |> Nx.erf_inv()
+    |> Nx.multiply(:math.sqrt(2))
+
+  z
+  |> Nx.multiply(spread)
+  |> Nx.add(:math.log(median))
+  |> Nx.exp()
+  |> Nx.to_list()
+end
+
+quantiles.(20) |> Enum.map(&Float.round(&1, 1))
+```
+
+Pick how many dots to draw. The study found 20 dots worked better than 100: with 100 there are
+too many to count, and people go back to judging the shape.
+
+```elixir
+dots = Kino.Input.range("Dots", min: 5, max: 100, step: 5, default: 20)
+```
+
+```elixir
+count = Kino.Input.read(dots) |> trunc()
+
+rows =
+  for minutes <- quantiles.(count) do
+    %{minutes: minutes, early: if(minutes < leave_by, do: "Before", else: "After")}
+  end
+
+early = Enum.count(rows, &(&1.early == "Before"))
+IO.puts("#{early} of #{count} dots: the bus comes before you'd leave about #{round(100 * early / count)}% of the time.")
+
+rows
+|> Plot.new(%{x: :minutes, fill: :early})
+# Wider dots for fewer of them, so the stacks stay about as tall.
+|> Plot.geom_dotplot(binwidth: 4.5 / :math.sqrt(count), color: :none)
+|> Plot.geom_vline(xintercept: leave_by, linetype: :dashed)
+|> Plot.scale_fill_manual(values: %{"Before" => "#D55E00", "After" => "#0072B2"})
+|> Plot.scale_x_continuous(limits: {0, 25})
+|> Plot.scale_y_continuous(name: :none, breaks: :none)
+|> Plot.guides(fill: :none)
+|> Plot.labs(x: "Minutes until the bus arrives")
+|> render.()
+```
+
+The exact chance, from the log-normal's distribution function, for comparison:
+
+```elixir
+z = (:math.log(leave_by) - :math.log(median)) / spread
+chance = (1 + (Nx.erf(z / :math.sqrt(2)) |> Nx.to_number())) / 2
+"#{Float.round(100 * chance, 1)}%"
+```

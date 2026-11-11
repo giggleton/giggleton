@@ -50,12 +50,13 @@
   --font-display: "Silkscreen", "Courier New", monospace;
   --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --font-mono: "Fira Code", "SF Mono", Menlo, Consolas, monospace;
-  --text-masthead: 400 28px/32px var(--font-display); /* The masthead name in thread-red, uppercase. Nowhere else. */
-  --text-display: 400 24px/40px var(--font-display); /* The home page greeting, uppercase, in thread-blue. Two lines at most. */
-  --text-title: 400 18px/26px var(--font-display); /* A post's title on its page and in the list; a resident's name on their card. Written in sentence case, shown as capitals (the face has no lowercase), in ink. */
-  --text-heading: 400 14px/22px var(--font-display); /* Section headings inside a post, uppercase, in ink, with a stitch of space-2 above. */
+  --text-masthead: 400 36px/40px var(--font-display); /* The masthead name in thread-red, uppercase. Nowhere else. */
+  --text-greeting: 400 32px/48px var(--font-display); /* The home page greeting, uppercase, in thread-blue. Two lines at most. */
+  --text-display: 400 24px/40px var(--font-display); /* A page's heading, uppercase, in thread-blue; the latest entry's title and a post's title on its page, in ink. */
+  --text-title: 400 18px/26px var(--font-display); /* A post's title in a list, section headings inside a post (uppercase), and a resident's name on their card. Written in sentence case, shown as capitals (the face has no lowercase), in ink. */
+  --text-heading: 400 14px/22px var(--font-display); /* Section headings outside a post's prose, on the home, post list, tag and resident pages, uppercase, in ink; and the kicker above a post's title on its own page. */
   --text-label: 400 11px/16px var(--font-display); /* Nav tabs, kickers and entry numbers; uppercase, in thread-blue, thread-green or ink-muted. Not used inside charts. */
-  --text-lede: 400 19px/30px var(--font-body); /* A post's first paragraph and a resident's one-line vocation, in ink. */
+  --text-lede: 400 19px/30px var(--font-body); /* The prose of a post, a page or a resident's page, and a resident's one-line vocation, in ink. */
   --text-body: 400 17px/28px var(--font-body); /* Paragraphs on cloth-panel, measure at most 36em, in ink. */
   --text-small: 700 14px/20px var(--font-body); /* Buttons and the 'Read on' link; ink or link. */
   --text-caption: 400 13px/18px var(--font-body); /* Figure captions, bylines and the vocation under a name, in ink-muted. */
@@ -63,8 +64,8 @@
 }
 .masthead {
   font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 32px;
+  font-size: 36px;
+  line-height: 40px;
   font-weight: 400;
   letter-spacing: 0.02em;
 }

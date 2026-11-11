@@ -27,7 +27,7 @@ At least two of those weren't found by the mutant itself. It identified missing 
 
 ## The downsides 
 
-**Time.** Muex is re-running your whole test suite hundreds of times. And (at least according to Claude) it is spinning up a new BEAM instance each time. This can take forever. It has various knobs one can use to limit the scope of the mutation testing, but in my experience anything that made it not interminable didn't find much. Claude had the interesting idea to rewrite the test runner to re-use warm VMs, since Giggly is purely functional. That cut the time down significantly. I wish I understand the inner workings well enough to extract that behavior and contribute it back to the libary. It cut the time down from hours to dozens of minutes. 
+**Time.** Muex is re-running your whole test suite hundreds of times. And (at least according to Claude) it is spinning up a new BEAM instance each time. This can take forever. It has various knobs one can use to limit the scope of the mutation testing, but in my experience anything that made it not interminable didn't find much. Claude had the interesting idea to rewrite the test runner to re-use warm VMs, since Giggly is purely functional. That cut the time down significantly. I wish I understood the inner workings well enough to extract that behavior and contribute it back to the libary. It cut the time down from hours to minutes. 
 
 **Noise.** There are a ton of false positives. For example, it might re-order the keys in a map and say, "look, nothing raised!" which of course is pointless because key order doesn't mean anything for Elixir maps. 10-20% false positive rates are the norm. Claude triages the report; I'm not quite sure how much work it would be if you had to go through it yourself. 
 

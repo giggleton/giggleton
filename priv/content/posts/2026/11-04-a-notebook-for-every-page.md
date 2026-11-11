@@ -5,25 +5,25 @@
   tags: ["notebooks", "ggplot2", "testing"]
 }
 ---
-When you set out to port ggplot2, you need some way to know how far along you are. ggplot2 already has one: its reference site has a page for every function, and nearly every page ends in examples. So we gave each of those pages a Livebook notebook of its own. There are 141 of them now, plus an index laid out like ggplot2's.
+When you set out to port ggplot2, you need a way to easily mark progress and prove you are getting it right. Luckily, we have the ggplot2 reference site, which has a page for every function, and at least one example on nearly every page. From there it's easy to make Livebooks for each page and fill them in as we go. There are 141 of them as of this writing.
 
-## One page, one notebook
-
-The rules are simple. A notebook takes every example on its page, in the page's order. Each example starts with ggplot2's code, copied verbatim, comments and all. Giggly's version comes next if Giggly can draw it. If it can't, the R code stays put and a line says what it's waiting for:
+Each Liveboook includes ggplot2's code. Giggly's version comes next if Giggly can draw it. If it can't, we note what's missing so we can track what's left to do and how many examples a particular function will let us draw. 
 
 ```r
-p + geom_label(aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+p + geom_label(
+  aes(fill = factor(cyl)),
+  colour = "white",
+  fontface = "bold"
+)
 ```
 
 > Not in Giggly yet: a fixed `fontface`.
 
-That line is always worded the same way, in every notebook. So when a feature lands, one search finds every example that was waiting for it. We draw those, and the notebooks double as Giggly's to-do list, written by ggplot2's own docs. On 16 October, 619 examples were waiting. Today 509 are drawn, 266 are waiting, and 43 notebooks have nothing left to wait for.
-
-We also learned not to cheat. Some examples call `qplot()`, ggplot2's old shortcut. Others compute a column first, such as `cut_width(carat, 0.25)`. You can often fake those with a few lines of Elixir, but a faked plot isn't Giggly drawing ggplot2's example, so those examples wait too.
+That line is always worded the same way, so when a feature lands, we can find the examples it will enable. We draw those, and the notebooks double as Giggly's to-do list. On October 16, 2026, 619 examples were waiting. 
 
 ## Drawn means checked
 
-The notebooks never show ggplot2's drawings, only Giggly's. They're documentation first, and two near-identical charts on every page would just be clutter. The checking happens in review. Before an example counts as drawn, ggplot2 draws the same plot in Docker, through vdiffr's copy of svglite, which measures text with the same glyph table Giggly uses. Then we compare the two files element by element. Giggly's test suite keeps 371 of those comparisons as golden SVGs, each with the R script that checks it.
+The notebooks never show ggplot2's drawings, only Giggly's. They're documentation first, and two near-identical charts on every page would just be clutter. The checking happens in review. Before an example counts as drawn, ggplot2 draws the same plot in Docker, through vdiffr's copy of svglite, which measures text with the same glyph table Giggly uses. Then we compare the two files element by element. As of this writing, Giggly's test suite had 371 (holy cow, that's a lot) of those comparisons as golden SVGs, each with the R script that checks it.
 
 Here's the first example from the `geom_point()` page, drawn both ways:
 
@@ -36,11 +36,19 @@ Giggly.Datasets.mtcars()
 ![Fig. 1 — ggplot(mtcars, aes(wt, mpg)) + geom_point(), drawn by ggplot2](/charts/2026-11-04-a-notebook-for-every-page/point-ggplot2.svg)
 ![Fig. 2 — The same plot, drawn by Giggly](/charts/2026-11-04-a-notebook-for-every-page/point-giggly.svg)
 
-Every rectangle, grid line, point and label sits at the same coordinates, to the hundredth of a point. The two files differ only in order: Giggly writes the x axis before the y axis, as ggplot2 itself does once a plot has facets. If the labels look a shade different, that's the browser. ggplot2's SVG names a font and lets your machine pick one, while Giggly draws the letters as outlines.
+Every rectangle, grid line, point and label sits at the same coordinates, to the hundredth of a point. This is one downside of this comparison process - Claude loves having a very specific bar to clear. I am pretty sure we have implemented specialized forms of floating point arithmetic just to match to the hundredth of a point, which seems silly.
 
-## A departure we kept
+And as I am very, very frequently reminded, even after all that, the two files differ in one meaningless respect: Giggly writes the x axis before the y axis, as ggplot2 itself does once a plot has facets. Also (and more interestingly), if the labels look a shade different, that's the browser. ggplot2's SVG names a font and lets your machine pick one, while Giggly draws the letters as outlines.
 
-Some differences we chose. The biggest is loess, the local regression `geom_smooth()` fits when a group has fewer than 1,000 rows. R's default doesn't fit a regression at every point on the curve. It divides the data into cells, fits at the cells' corners, and joins those fits with cubic pieces, and the rule for cutting the cells is only written down in R's Fortran. Matching it would have meant porting that Fortran. Giggly fits at each point of the curve directly instead, as R does when you ask for `loess(surface = "direct")`.
+## Differences we accept 
+
+We did actually accept some. For the most part, if under some edge case R draws something weird, we match the behavior. In other cases, where R just doesn't draw something on a bad input, we raise. 
+
+Another example is loess, the local regression `geom_smooth()` fits when a group has fewer than 1,000 rows. R's default doesn't fit a regression at every point on the curve. It divides the data into cells, fits at the cells' corners, and joins those fits with cubic pieces, the code for which is in a Fortran library.
+
+Frickin' Fortran! I draw the line at Fortran. 
+
+Giggly fits at each point of the curve directly instead, as R does when you ask for `loess(surface = "direct")`.
 
 Most of the time you can't tell. On the page's first smooth, Giggly's curve is never more than 1.7 points from R's, as the notebook draws it. Shrink the span, though, and R's cells shrink too:
 
@@ -56,15 +64,13 @@ Giggly.Datasets.mpg()
 
 Look around the 2-litre engines. Giggly fits right at each point, so its curve dips with the handful of thirsty cars there. R only fits at its cells' corners, and its cubic pieces sweep past the dip. At this size Giggly's curve is up to 9.7 points from R's, and its band's edges up to 12. Everything else in the two drawings still matches, points and axes included.
 
-We kept it, and we wrote it down. The notebook says how far the curve sits from R's at every loess example, measured on the notebook's own drawing. Giggly's golden for loess is drawn by R in direct mode, so the check is still exact. It's just exact against the method we chose.
-
-The other departures follow the same pattern:
+Other departures (not an exhaustive list):
 
 - **Jitter.** Jittered points take their distances from Erlang's random numbers, so they land in different places than R's, within the same distance of where they started.
-- **Bootstrap intervals.** These are drawn from a seed. ggplot2's examples set none, so R's ends move on every run anyway. The notebook says how far they wander, measured over 500 seeds.
-- **Colour names.** These mean what they mean in CSS, so `"green"` is `#008000` where R's is a brighter `#00FF00`.
+- **Bootstrap intervals.** These are drawn from a seed. ggplot2's examples set none, so R's ends move on every run anyway.
+- **Colour names.** In Giggly these mean what they mean in CSS, so `"green"` is `#008000` where R's is a brighter `#00FF00`.
 
-Each is stated in the notebook's prose, with how far it goes. A difference with nothing written beside it is a bug.
+We note the departures in the Livebooks. Ideally we'll write a separate guide that lists all of them in one place for easy reference.
 
 ## Try them
 
