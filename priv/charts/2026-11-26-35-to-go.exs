@@ -63,48 +63,4 @@ drawn =
   |> Plot.labs(x: :none, y: "Examples Giggly draws")
   |> Giggly.to_svg(width: 560, height: 300)
 
-# The 126 examples waiting at 34e5991 (2026-11-13), each grouped once, under the first of these
-# its note named, in this order: maps; the movies dataset; the theme's palettes and
-# element_geom(); statistical models; R's own machinery (ggproto, grid grobs and arrows,
-# plotmath, qplot(), %+%, theme objects, + aes()); stat plumbing (stats chosen by name,
-# stat_manual(), stat_identity(), stat_unique(), after_scale(), stage()); functions in a
-# mapping; and the rest. Then each one's state at v0.2.0: drawn, set aside (neither drawn nor
-# waiting) or still waiting.
-fates = [
-  {"Maps", 0, 0, 32},
-  {"R's own machinery", 13, 10, 3},
-  {"Stat plumbing", 20, 0, 0},
-  {"Statistical models", 6, 5, 0},
-  {"The movies dataset", 10, 0, 0},
-  {"Theme palettes", 9, 0, 0},
-  {"Functions in a mapping", 8, 0, 0},
-  {"Everything else", 9, 1, 0}
-]
-
-# Largest group at the top and "Everything else" at the bottom: a discrete y axis runs from
-# the bottom up.
-order =
-  fates
-  |> Enum.map(fn {what, _, _, _} -> what end)
-  |> Enum.reverse()
-
-rows =
-  Enum.flat_map(fates, fn {what, drawn, aside, waiting} ->
-    [
-      %{what: what, now: "Drawn", examples: drawn},
-      %{what: what, now: "Set aside", examples: aside},
-      %{what: what, now: "Still waiting", examples: waiting}
-    ]
-  end)
-
-fate =
-  rows
-  |> Plot.new(%{x: :examples, y: :what, fill: :now})
-  |> Plot.geom_col(position: {:stack, reverse: true})
-  |> Plot.scale_y_discrete(limits: order)
-  |> Plot.scale_fill_manual(values: ["#0072B2", "#999999", "#E69F00"])
-  |> Plot.labs(x: "Examples waiting on November 13", y: :none, fill: :none)
-  |> Plot.theme(legend_position: :top)
-  |> Giggly.to_svg(width: 560, height: 300)
-
-%{"drawn" => drawn, "fate" => fate}
+%{"drawn" => drawn}
