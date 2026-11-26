@@ -35,7 +35,7 @@ defmodule GiggletonWeb.Feeds.Atom do
     <feed xmlns="http://www.w3.org/2005/Atom">
       <id>#{esc(base_url <> "/")}</id>
       <title>Giggleton</title>
-      <subtitle>The diary of a village where Elixir's charts get drawn.</subtitle>
+      <subtitle>The diary of a lovely community that loves to draw charts with Elixir.</subtitle>
       <link rel="alternate" type="text/html" href="#{esc(base_url <> "/")}"/>
       <link rel="self" type="application/atom+xml" href="#{esc(self_url)}"/>
       <updated>#{updated}</updated>
