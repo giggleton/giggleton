@@ -128,16 +128,21 @@ fonts are in `priv/static/fonts/`, which also serves them as web fonts (see its 
 
 ## Deploying
 
-The site runs as a release on one Fly.io machine. `mix phx.gen.release --docker` has already
-written the `Dockerfile` and release scripts.
+The site runs as a release on one Fly.io machine, the app `giggleton` in the personal
+organization, with the settings in `fly.toml`. GitHub Actions
+(`.github/workflows/deploy.yml`) tests every push and pull request, and deploys `main` with
+`flyctl deploy --remote-only` once its tests pass.
+
+Setting it up, once:
 
 ```bash
-fly launch --no-deploy
+fly apps create giggleton --org personal
+fly secrets set SECRET_KEY_BASE="$(mix phx.gen.secret)" --app giggleton --stage
+fly tokens create deploy --app giggleton
 ```
 
-Decline the Postgres offer. Then, in `fly.toml`, set `PHX_HOST` to the site's domain, keep
-`min_machines_running = 1`, and give the machine 512 MB. Deploy with:
+Save the token as the repository's `FLY_API_TOKEN` Actions secret. The first push to `main`
+then deploys. For a domain of the site's own, add it with `fly certs add` and set `PHX_HOST` in
+`fly.toml` to it.
 
-```bash
-fly deploy
-```
+To deploy by hand instead, `fly deploy`.
