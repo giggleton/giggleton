@@ -74,7 +74,7 @@ Palette.discrete(Palette.named("hue"), 4)
 #=> ["#F8766D", "#7CAE00", "#00BFC4", "#C77CFF"]
 ```
 
-As you can imagine, getting Scales to match the R package for these transformation to the 200th digit or whatever was Claude's favorite thing ever.
+As you can imagine, getting Scales to match the R package for these transformations to the 200th digit or whatever was Claude's favorite thing ever.
 
 ## A package of its own
 
