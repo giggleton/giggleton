@@ -8,7 +8,8 @@ kill_signal = "SIGTERM"
 [build]
 
 [env]
-  PHX_HOST = "giggleton.fly.dev"
+  PHX_HOST = "giggleton.pocketbookvote.com"
+  PHX_OTHER_HOSTS = "giggleton.fly.dev"
   PORT = "8080"
 
 [http_service]

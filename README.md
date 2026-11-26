@@ -142,7 +142,8 @@ fly tokens create deploy --app giggleton
 ```
 
 Save the token as the repository's `FLY_API_TOKEN` Actions secret. The first push to `main`
-then deploys. For a domain of the site's own, add it with `fly certs add` and set `PHX_HOST` in
-`fly.toml` to it.
+then deploys. The site's address is `giggleton.pocketbookvote.com`, a CNAME to `giggleton.fly.dev` with
+its certificate from `fly certs add`. `PHX_HOST` in `fly.toml` names it, and `PHX_OTHER_HOSTS`
+lists the other hosts LiveView accepts sockets from, here `giggleton.fly.dev`.
 
 To deploy by hand instead, `fly deploy --ha=false`.
