@@ -7,7 +7,7 @@
 ---
 As a complete nerd, one thing I like to do is page through the ggplot2 reference pages looking at all the oddball types of charts and wishing I was doing something that required their use. `geom_dotplot()` is one of those. It stacks one dot per observation, each dot as wide as its bin, which sounds like a histogram with extra steps. Then the documentation warns you that the numbers on its y axis don't mean anything, and suggests you hide them. M'kay...
 
-But there's at least one place where the humble dot plot is PROVEN to be more effective than its better-known peers.
+But there's at least one place where the humble dot plot is CLINICALLY PROVEN to be more effective than its better-known peers.
 
 The bus stop.
 

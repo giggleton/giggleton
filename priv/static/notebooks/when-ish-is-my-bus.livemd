@@ -3,17 +3,11 @@
 ```elixir
 Mix.install([
   {:giggly, "~> 0.2.0"},
+  {:kino_giggly, "~> 0.1.0"},
   {:kino, "~> 0.19"}
 ])
 
 alias Giggly.Plot
-
-render = fn plot ->
-  plot
-  |> Giggly.to_svg(width: 560, height: 160)
-  |> IO.iodata_to_binary()
-  |> Kino.Image.new(:svg)
-end
 ```
 
 ## About this notebook
@@ -54,7 +48,7 @@ Plot.new()
 |> Plot.scale_x_continuous(limits: {0, 25})
 |> Plot.scale_y_continuous(name: :none, breaks: :none)
 |> Plot.labs(x: "Minutes until the bus arrives")
-|> render.()
+|> Kino.Giggly.new(width: 560, height: 160)
 ```
 
 What's the chance the bus comes before you'd have to leave? It's the area left of the dashed
@@ -119,7 +113,7 @@ rows
 |> Plot.scale_y_continuous(name: :none, breaks: :none)
 |> Plot.guides(fill: :none)
 |> Plot.labs(x: "Minutes until the bus arrives")
-|> render.()
+|> Kino.Giggly.new(width: 560, height: 160)
 ```
 
 The exact chance, from the log-normal's distribution function, for comparison:
