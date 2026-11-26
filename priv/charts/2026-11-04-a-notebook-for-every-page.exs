@@ -9,12 +9,12 @@ ggplot2 = fn name ->
 end
 
 point =
-  Giggly.Datasets.mtcars()
+  GigDatasets.mtcars()
   |> Plot.new(%{x: :wt, y: :mpg})
   |> Plot.geom_point()
 
 smooth =
-  Giggly.Datasets.mpg()
+  GigDatasets.mpg()
   |> Plot.new(%{x: :displ, y: :hwy})
   |> Plot.geom_point()
   |> Plot.geom_smooth(span: 0.3)

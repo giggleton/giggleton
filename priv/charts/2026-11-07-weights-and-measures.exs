@@ -3,7 +3,7 @@ alias Scales.{ColorOperations, Palette}
 
 # Fig. 1 and 2: the same mammals on a linear scale and a logarithmic one.
 sleep =
-  Giggly.Datasets.msleep()
+  GigDatasets.msleep()
   |> Plot.new(%{x: :bodywt, y: :brainwt})
   |> Plot.geom_point()
 
@@ -83,7 +83,7 @@ lightness =
 # Fig. 5 and 6: one surface, Old Faithful's eruptions by waiting time, in ggplot2's default
 # gradient and in viridis.
 faithful =
-  Giggly.Datasets.faithfuld()
+  GigDatasets.faithfuld()
   |> Plot.new(%{x: :waiting, y: :eruptions, fill: :density})
   |> Plot.geom_raster()
   |> Plot.labs(x: "Waiting (min)", y: "Eruption (min)", fill: "Density")

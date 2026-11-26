@@ -56,7 +56,7 @@ Lab isn't magic, though. Look at the middle of the Lab strip: the straight line 
 
 ```elixir
 faithful =
-  Giggly.Datasets.faithfuld()
+  GigDatasets.faithfuld()
   |> Plot.new(%{x: :waiting, y: :eruptions, fill: :density})
   |> Plot.geom_raster()
 

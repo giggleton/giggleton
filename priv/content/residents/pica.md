@@ -66,7 +66,7 @@ holds the font.
 alias Giggly.Plot
 
 plot =
-  Giggly.Datasets.mtcars()
+  GigDatasets.mtcars()
   |> Plot.new(%{x: :wt, y: :mpg})
   |> Plot.geom_point()
   |> Plot.labs(

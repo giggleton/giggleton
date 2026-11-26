@@ -2,8 +2,7 @@
 
 ```elixir
 Mix.install([
-  # geom_dotplot/3 is newer than Giggly 0.1.0 on Hex.
-  {:giggly, github: "giggleton/giggly"},
+  {:giggly, "~> 0.2.0"},
   {:kino, "~> 0.19"}
 ])
 

@@ -21,12 +21,12 @@ This site is a blog where I will write about what Giggly and his friends do and 
 
 ## A first plot
 
-Here is the simplest plot Giggly draws: one point for each of the 32 cars in the `mtcars` dataset, weight across and miles per gallon up.
+Here is the simplest plot Giggly draws: one point for each of the 32 cars in the `mtcars` dataset, from the `gig_datasets` package, weight across and miles per gallon up.
 
 ```elixir
 alias Giggly.Plot
 
-Giggly.Datasets.mtcars()
+GigDatasets.mtcars()
 |> Plot.new(%{x: :wt, y: :mpg})
 |> Plot.geom_point()
 |> Giggly.to_svg(width: 560, height: 360)

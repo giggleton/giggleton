@@ -28,7 +28,7 @@ The notebooks never show ggplot2's drawings, only Giggly's. They're documentatio
 Here's the first example from the `geom_point()` page, drawn both ways:
 
 ```elixir
-Giggly.Datasets.mtcars()
+GigDatasets.mtcars()
 |> Plot.new(%{x: :wt, y: :mpg})
 |> Plot.geom_point()
 ```
@@ -53,7 +53,7 @@ Giggly fits at each point of the curve directly instead, as R does when you ask 
 Most of the time you can't tell. On the page's first smooth, Giggly's curve is never more than 1.7 points from R's, as the notebook draws it. Shrink the span, though, and R's cells shrink too:
 
 ```elixir
-Giggly.Datasets.mpg()
+GigDatasets.mpg()
 |> Plot.new(%{x: :displ, y: :hwy})
 |> Plot.geom_point()
 |> Plot.geom_smooth(span: 0.3)
@@ -74,4 +74,4 @@ We note the departures in the Livebooks. Ideally we'll write a separate guide th
 
 ## Try them
 
-The notebooks live in [Giggly's repository](https://github.com/giggleton/giggly), under `notebooks/`. Open `index.livemd` in Livebook and follow it the way you'd follow ggplot2's reference. For now they install Giggly from the checkout, so clone the repository first.
+The notebooks live in [Giggly's repository](https://github.com/giggleton/giggly), under `notebooks/`. Open `index.livemd` in Livebook and follow it the way you'd follow ggplot2's reference.

@@ -5,7 +5,7 @@
   home: "The garden plots",
   thread: :brown,
   says: "Map it to a bed first, then we'll see how it grows.",
-  install: ~s({:giggly, "~> 0.1"}),
+  install: ~s({:giggly, "~> 0.2"}),
   docs: "https://hexdocs.pm/giggly",
   source: "https://github.com/giggleton/giggly",
   order: 1
@@ -23,8 +23,9 @@ out:
 - **Data** is anything that implements Table.Reader. 
 - **A mapping** says which column goes along, which goes up and which picks the colour, like
   a seed packet assigned to a bed.
-- **Layers** are planted one over another: points, lines, paths, areas, ribbons, bars,
-  histograms, densities, boxplots, smooths and text.
+- **Layers** are planted one over another: points, lines, paths, steps, areas, ribbons, bars,
+  histograms, densities, dotplots, boxplots, violins, tiles, contours, polygons, smooths,
+  quantile lines, text and labels.
 - **Scales** train each mapping to the data: continuous, log, square root, reversed, dated and
   discrete, with ggplot2's hues, gradients, greys and other palettes.
 - **Facets** fence the plot into panels, one for each value of a column, or a grid of two.
@@ -34,6 +35,8 @@ Giggly draws SVG for a LiveBook, a LiveView or a static page like this one. Opti
 can ask his friend Pica to measure every label using the right font metrics. [Pica's page](/residents/pica)
 shows a chart set that way.
 
+Giggly has a few more friends now, each a package of its own. [kino_giggly](https://hex.pm/packages/kino_giggly) draws plots in Livebook. [gig_typst](https://hex.pm/packages/gig_typst) sets titles and labels in Typst, maths included. [gig_ridges](https://hex.pm/packages/gig_ridges) draws ridgeline plots, and it's the first plugin, built on the same layer API anyone can use.
+
 ## The API
 
 `Giggly.Plot` builds a plot specification. Giggly uses that specification to calculate the attributes of the
@@ -42,7 +45,7 @@ plots elements and their layout, and then draw the plot.
 ```elixir
 alias Giggly.Plot
 
-Giggly.Datasets.mpg()
+GigDatasets.mpg()
 |> Plot.new(%{x: :displ, y: :hwy})
 |> Plot.geom_point(%{color: :drv})
 |> Plot.geom_smooth(method: :lm)
@@ -62,5 +65,5 @@ Giggly.Datasets.mpg()
   legends; `facet_wrap/3` and `facet_grid/3` split the panels; `labs/2` names things; and
   `theme_*` and `theme/2` dress the plot.
 - `Giggly.to_svg/2` draws the plot. 
-- `Giggly.Datasets` holds ggplot2's example datasets, like `mtcars`, `diamonds`, `economics`
-  and `txhousing`.
+- ggplot2's example datasets, like `mtcars`, `diamonds`, `economics` and `txhousing`, are in
+  their own package, `gig_datasets`, as `GigDatasets.mtcars()` and so on.

@@ -15,7 +15,7 @@ Giggly uses that default too! But, thanks to LiveView, quickly seeing how your d
 ```elixir
 alias Giggly.Plot
 
-Giggly.Datasets.mpg()
+GigDatasets.mpg()
 |> Plot.new(%{x: :hwy})
 |> Plot.geom_histogram(bins: bins)
 |> Plot.labs(x: "Highway miles per gallon", y: "Cars")
@@ -48,7 +48,7 @@ defmodule MyAppWeb.BinsLive do
 
   defp draw(socket, bins) do
     svg =
-      Giggly.Datasets.mpg()
+      GigDatasets.mpg()
       |> Plot.new(%{x: :hwy})
       |> Plot.geom_histogram(bins: bins)
       |> Giggly.to_svg(width: 560, height: 320)

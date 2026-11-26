@@ -1,7 +1,7 @@
 alias Giggly.Plot
 
 garden =
-  Giggly.Datasets.mpg()
+  GigDatasets.mpg()
   |> Plot.new(%{x: :displ, y: :hwy})
   |> Plot.geom_point(%{color: :drv})
   |> Plot.geom_smooth(method: :lm)

@@ -72,7 +72,7 @@ So there's the case for an obscure geom: when the reader needs to judge a probab
 
 ## Try it
 
-There's a [Livebook version](/notebooks/when-ish-is-my-bus.livemd) of this post with a slider for the number of dots, so you can watch counting get harder as the dots pile up. Change the prediction's median and spread, or move the 8-minute line, and see how the count changes. `geom_dotplot()` is newer than the Giggly release on Hex, so for now the notebook installs Giggly from GitHub.
+There's a [Livebook version](/notebooks/when-ish-is-my-bus.livemd) of this post with a slider for the number of dots, so you can watch counting get harder as the dots pile up. Change the prediction's median and spread, or move the 8-minute line, and see how the count changes.
 
 The study's survey data and analysis code are on [GitHub](https://github.com/mjskay/when-ish-is-my-bus), for anyone who wants to dig further.
 

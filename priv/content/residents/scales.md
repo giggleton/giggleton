@@ -5,7 +5,7 @@
   home: "Weights & measures",
   thread: :green,
   says: "Nice breaks, those. Minor ones too, if you want them.",
-  install: ~s({:scales, "~> 0.1"}),
+  install: ~s({:scales, "~> 0.2"}),
   docs: "https://hexdocs.pm/scales",
   source: "https://github.com/giggleton/scales",
   order: 3

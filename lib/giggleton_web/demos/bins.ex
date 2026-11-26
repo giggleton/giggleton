@@ -32,7 +32,7 @@ defmodule GiggletonWeb.Demos.Bins do
 
   defp draw(socket, bins) do
     {:ok, chart} =
-      Giggly.Datasets.mpg()
+      GigDatasets.mpg()
       |> Plot.new(%{x: :hwy})
       |> Plot.geom_histogram(bins: bins)
       |> Plot.labs(x: "Highway miles per gallon", y: "Cars")
