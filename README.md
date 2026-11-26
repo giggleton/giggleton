@@ -145,4 +145,4 @@ Save the token as the repository's `FLY_API_TOKEN` Actions secret. The first pus
 then deploys. For a domain of the site's own, add it with `fly certs add` and set `PHX_HOST` in
 `fly.toml` to it.
 
-To deploy by hand instead, `fly deploy`.
+To deploy by hand instead, `fly deploy --ha=false`.
