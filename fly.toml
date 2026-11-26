@@ -32,6 +32,10 @@ kill_signal = "SIGTERM"
     method = "GET"
     path = "/"
     timeout = "5s"
+    # The check reaches the machine over plain HTTP. Marking it as HTTPS, as Fly's proxy marks
+    # visitors' requests, keeps force_ssl from answering it with a redirect, which fails it.
+    [http_service.checks.headers]
+      X-Forwarded-Proto = "https"
 
 [[vm]]
   memory = "512mb"
