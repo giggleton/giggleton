@@ -5,9 +5,9 @@
   tags: ["text", "fonts", "packages"]
 }
 ---
-Quick, what's the hardest part of a chart to lay out? The bars? The points? The legend?
+One of the most intimidating things about plotting libraries for me was not drawing lines and shapes - it was font metrics. Drawing words. We can't lay out the plot correctly without knowing exactly how much room every label is going to take, and the only way to know that is to measure every letter. That's Pica's job.
 
-It's the words. Giggly can't draw a single bar until it knows exactly how much room every label is going to take, and the only way to know that is to measure every letter. That's Pica's job.
+Pica wraps Rust libraries that do this for us. That's a little heavy, so it is optional. Base Giggly makes some assumptions that should work ok most of the time, as many other charting packages do.
 
 ## The labels go first
 
@@ -22,11 +22,11 @@ So every label gets measured before anything is drawn, and it has to be measured
 
 ## Borrowing ggplot2's ruler
 
-Giggly's first ruler was borrowed from ggplot2's tests. ggplot2 checks its drawings against SVG snapshots, and the tool that writes those snapshots measures every string with one font's table: Liberation Sans, which has the same widths as Arial and Helvetica. Add up each character's width, done. No kerning, no nothing.
+ggplot2 checks its drawings against SVG snapshots, and the tool that writes those snapshots measures every string with Liberation Sans, which has the same widths as Arial and Helvetica. Add up each character's width, done.
 
-Giggly ships a copy of that table, which is a big part of how it can match ggplot2's drawings to the hundredth of a point, as I wrote about in [A notebook for every page](/posts/a-notebook-for-every-page). It's also still what Giggly does if you don't install Pica.
+Giggly ships a copy of that table, which is a big part of how it can match ggplot2's drawings to the hundredth of a point, as I wrote about in [A notebook for every page](/posts/a-notebook-for-every-page). This is what Giggly does if you don't install Pica.
 
-The catch is that the table is only right if the reader's browser draws the chart in Liberation Sans, Arial or Helvetica. Pick another font in your theme and the browser draws your font at Liberation's widths. [Pica's page](/residents/pica) has an example where a title set in Lobster gets stretched by about 16% to fill the room Liberation Sans would have taken. It is not a good look.
+Of course, this only works if the reader's browser draws the chart in Liberation Sans, Arial or Helvetica. Pick another font in your theme and the browser draws your font at Liberation's widths. [Pica's page](/residents/pica) has an example where a title set in Lobster gets stretched by about 16% to fill the room Liberation Sans would have taken. It is not a good look.
 
 ## Letters aren't Lego
 
@@ -58,28 +58,26 @@ Each glyph comes back with how far it actually moves the pen (`x_advance`) and h
 
 ![Fig. 3 — Shaping takes almost 10% off "AVATAR", and almost nothing off "Miles per gallon". Measured in Source Serif 4.](/charts/2026-11-11-measure-twice/kerning.svg)
 
-I'll be honest: for a typical axis title like "Miles per gallon", shaping only changes things by a fraction of a percent. Words in all caps are where kerning really earns its keep. But the real gain is measuring the font the chart is actually drawn in instead of pretending it's Liberation Sans, and once you're reading the font file anyway, you might as well read all of it.
+For a typical axis title like "Miles per gallon", shaping only changes things by a fraction of a percent. Words in all caps are where kerning really matters.
 
 ## Why not just write it in Elixir?
 
-Because I'm not an idiot. OK, I'm sometimes an idiot, but not about this.
+Because I'm not an idiot.
 
 We did look. Before writing a line of Pica, Claude surveyed what was on Hex. Some packages only read the old `kern` table, which doesn't help much because Google's fonts keep their kerning somewhere else (the `GPOS` table, if you're keeping score). One reads `GPOS` but misses enough of it that it found none of Lato's kerning at all. The one package that did wrap HarfBuzz (more on that in a second) ran a process for every font and couldn't tell you a font's metrics. And measuring by rendering the text to an image and looking at it doesn't work either, because the ink of a letter isn't the same as the room it takes up.
 
 The library that does all of this right is HarfBuzz. It shapes the text in Chrome, Firefox and Android, and more to the point for us, it's what R's svglite uses to measure text. HarfBuzz has an official Rust port, harfrust, so Pica is a thin Elixir layer over harfrust, in a Rust NIF.
 
-Readers of the notebook post know I draw the line at Fortran. Rust, it turns out, is on my side of the line. Pica ships prebuilt binaries, so you don't need a Rust toolchain to use it.
+Readers of the notebook post know I draw the line at Fortran. Rust, it turns out, is on my side of the line. Pica ships prebuilt binaries, so you don't need a Rust toolchain to use it. Thank heavens for [rustler_precompiled](https://hexdocs.pm/rustler_precompiled)!
 
 And because svglite uses HarfBuzz too, Giggly can match R's widths with Pica the same way it matches them with the Liberation Sans table. Across sizes from 5 to 30 points in Lato and Source Serif 4, Giggly's widths come within 4/64 of a point of svglite's. Yes, Claude checked. Yes, Claude loved it.
 
 ## Measuring, not drawing
 
-Pica measures, but she doesn't draw anything. She hands the measurements back to whoever asked, usually Giggly, and Giggly lays out the chart around them. Pica can also hand over each glyph's outline, so by default Giggly draws a label as the font's actual letter shapes instead of text that names a font. That means a chart looks the same in every browser and every feed reader, whether or not the reader has the font installed.
+Pica measures, but she doesn't draw anything. She hands the measurements back to whoever asked, usually Giggly, and Giggly lays out the chart around them. Pica can also hand over each glyph's outline, so by default Giggly draws a label as the font's actual letter shapes instead of text that names a font. That means a chart looks the same everywhere, whether or not the reader has the font installed.
 
-She also never guesses. If you ask for a font she doesn't have, she says so instead of quietly substituting something that looks close.
+She also never guesses. If you ask for a font she doesn't have, she raises.
 
-Like Scales, Pica is a package of her own, and for the same reason: measuring text is useful for a lot more than charts. PDF writers, image generators, anything that has to know how wide a string is before it puts it somewhere. Giggly lists Pica as an optional dependency, so nobody has to download a NIF just to draw a scatter plot.
-
-And in case you were wondering about the name: a pica is a printer's measure, twelve points. It's also the first half of *Pica pica*, the scientific name of the Eurasian magpie, which is how a magpie ended up running the village press.
+Like Scales, Pica is a package of her own, and for the same reason: measuring text is useful for a lot more than charts. PDF writers, image generators, anything that has to know how wide a string is before it puts it somewhere. Giggly lists Pica as an optional dependency, so nobody has to download a NIF just to draw a bar chart for their dashboard.
 
 Pica is on [Hex](https://hex.pm/packages/pica), with its documentation at [hexdocs](https://hexdocs.pm/pica).
