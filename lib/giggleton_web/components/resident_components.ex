@@ -39,6 +39,25 @@ defmodule GiggletonWeb.ResidentComponents do
   end
 
   @doc """
+  A neighbor's box: their package name, what they do and where their documentation is, in the
+  same stitched panel as a resident's card but with no portrait yet. The whole box links to the
+  documentation.
+  """
+  attr :neighbor, :map, required: true
+
+  def neighbor_card(assigns) do
+    ~H"""
+    <a id={"neighbor-#{@neighbor.id}"} href={@neighbor.docs} class="stitched resident neighbor">
+      <div>
+        <h3>{@neighbor.id}</h3>
+        <p>{@neighbor.description}</p>
+        <span class="tag">hexdocs ↗</span>
+      </div>
+    </a>
+    """
+  end
+
+  @doc """
   A resident on one line, for places where they should stay quiet: a small portrait, their
   name and vocation, no panel. The whole line links to their reference page.
   """

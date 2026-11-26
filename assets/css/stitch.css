@@ -115,6 +115,12 @@ html[data-theme="midnight"] .theme-toggle .moon { display: block; }
 .resident p { font: var(--text-caption); color: var(--ink-muted); margin: 0; }
 .resident .tag { display: block; margin-top: var(--space-1); font: var(--text-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--thread-green); }
 
+/* Neighbors: packages that haven't moved in, so a resident's box with no portrait. */
+.neighbors-section { margin-top: var(--space-8); }
+.neighbors-section .lede { margin: 0 0 var(--space-4); }
+.neighbor { align-items: flex-start; height: 100%; box-sizing: border-box; }
+.neighbor h3 { margin: 0 0 var(--space-1); }
+
 /* ---- Chart frame: styles the frame only, never the chart inside ---- */
 
 .chart-frame { margin: 0; padding: var(--space-3); }

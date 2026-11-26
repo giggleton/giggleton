@@ -19,6 +19,20 @@ defmodule GiggletonWeb.ResidentLiveTest do
     end
   end
 
+  test "the residents page lists the neighbors, each linking to its documentation", %{conn: conn} do
+    {:ok, view, _html} = live(conn, ~p"/residents")
+
+    assert has_element?(view, "#neighbors-heading")
+
+    for neighbor <- Giggleton.Neighbors.all_neighbors() do
+      assert has_element?(
+               view,
+               "#neighbor-#{neighbor.id}[href='#{neighbor.docs}'] h3",
+               neighbor.id
+             )
+    end
+  end
+
   test "a resident's page shows their workshop and their plate", %{conn: conn} do
     {:ok, view, _html} = live(conn, ~p"/residents/pica")
 

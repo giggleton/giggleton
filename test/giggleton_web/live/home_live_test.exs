@@ -4,9 +4,9 @@ defmodule GiggletonWeb.HomeLiveTest do
   import Phoenix.LiveViewTest
 
   test "the home page greets the reader and leads with the latest entry", %{conn: conn} do
-    {:ok, view, html} = live(conn, ~p"/")
+    {:ok, view, _html} = live(conn, ~p"/")
 
-    assert html =~ "A village in"
+    assert has_element?(view, "#greeting")
     [latest] = Giggleton.Blog.recent_posts(1)
     assert has_element?(view, "#latest h2 a[href='/posts/#{latest.slug}']", latest.title)
   end

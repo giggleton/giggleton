@@ -23,7 +23,7 @@ defmodule GiggletonWeb.HomeLive do
     {:ok,
      socket
      |> assign(
-       page_title: "A village in cross-stitch",
+       page_title: "A humble village of craftspeople",
        page_description:
          "Giggleton is the diary of a village where Elixir's charts get drawn: Giggly, Pica and Scales.",
        latest: latest,
@@ -39,10 +39,10 @@ defmodule GiggletonWeb.HomeLive do
     ~H"""
     <Layouts.app flash={@flash} current={:home}>
       <section class="hero" aria-labelledby="greeting">
-        <h1 id="greeting">A village in<br />cross-stitch</h1>
+        <h1 id="greeting">A humble village of craftspeople</h1>
         <p class="lede">
           Giggleton is where Elixir's charts get drawn. Giggly keeps the garden plots, Pica runs
-          the press and Scales keeps the weights and measures. This is the village diary.
+          the press and Scales keeps the weights and measures. This is our diary.
         </p>
       </section>
 
