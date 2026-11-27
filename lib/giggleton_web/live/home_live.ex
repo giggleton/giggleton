@@ -25,7 +25,7 @@ defmodule GiggletonWeb.HomeLive do
      |> assign(
        page_title: "A humble village of craftspeople",
        page_description:
-         "Giggleton is a lovely community that loves to draw charts with Elixir. This is our diary.",
+         "Giggleton is a lovely community that enjoys drawing charts with Elixir. This is our diary.",
        latest: latest,
        earlier?: earlier != [],
        residents: Residents.all_residents()
@@ -41,7 +41,7 @@ defmodule GiggletonWeb.HomeLive do
       <section class="hero" aria-labelledby="greeting">
         <h1 id="greeting">A humble village of craftspeople</h1>
         <p class="lede">
-          Giggleton is a lovely community that loves to draw charts with Elixir. Giggly keeps the
+          Giggleton is a lovely community that enjoys drawing charts with Elixir. Giggly keeps the
           garden plots, Pica runs the press and Scales keeps the weights and measures. This is our
           diary.
         </p>
