@@ -5,7 +5,7 @@
   tags: ["testing", "agents", "mutation-testing"]
 }
 ---
-Like most folks in 2026, I have spent a lot of time polishing the tools I use to try to manage the LLM that does my coding. Giggly relies on several skills, a few hooks, static analysis tools like credo and sobelow and the `boundary` package. I'll get to each of them in future posts. This one is about the one that I still don't totally get: mutation testing, using the muex package.
+Like most folks in 2026, I have spent a lot of time polishing the tools I use to try to manage the LLM that does my coding. Giggly relies on several skills, a few hooks, static analysis tools like credo and sobelow and the `boundary` package. I'll get to each of them in future posts. This one is about the one that I still don't totally get: mutation testing, using the [muex](https://github.com/Oeditus/muex) package.
 
 ## What it is
 
