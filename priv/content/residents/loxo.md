@@ -16,7 +16,7 @@ Loxo keeps the village's map room: the `loxo` package, map projection for Elixir
 ## What Loxo does
 
 Hand Loxo a point on the round world and the name of a flat one, and it says where the point
-lands: a longitude and latitude carried to a Mercator sheet, or to a globe seen from space, or
+lands: a longitude and latitude converted to a Mercator sheet, or to a globe seen from space, or
 to any of the projections a proj string can name.
 
 Loxo is short for loxodrome. A moth steers by keeping the moon at the same angle all night. A
@@ -27,7 +27,7 @@ you can follow.
 ## The API
 
 `Loxo.project/2` takes a list of points and two coordinate systems, the one the points are in
-(`from:`) and the one to carry them to (`to:`). A point is `{x, y}`: for longitude and latitude,
+(`from:`) and the one to convert them to (`to:`). A point is `{x, y}`: for longitude and latitude,
 longitude first, in degrees. A coordinate system is an EPSG code, such as `4326` for longitude
 and latitude or `3857` for Web Mercator, or a proj string. Here two points, one in North Carolina
 and one in China, go from longitude and latitude onto an orthographic projection, the globe as
