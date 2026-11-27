@@ -9,7 +9,7 @@ defmodule GiggletonWeb.PixelArtTest do
   doctest GiggletonWeb.PixelArt.Runs
 
   test "every pattern file is compiled in" do
-    assert Enum.sort(PixelArt.names()) == ~w(arrow giggly home moon pica scales sun)
+    assert Enum.sort(PixelArt.names()) == ~w(arrow giggly home loxo moon pica scales sun)
   end
 
   test "a pattern renders as runs of thread-classed rects at the requested size" do

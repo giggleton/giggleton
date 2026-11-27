@@ -61,6 +61,12 @@ a:hover { text-decoration-style: solid; }
 html[data-theme="midnight"] .px-d { fill: var(--cloth-sunken); }
 html[data-theme="midnight"] .px-l { fill: var(--ink); }
 
+/* The moth's pastels, the same in both themes: pale enough that a k edge, light in Midnight,
+   would blur into them, so its wings are edged in d instead. */
+.px-u { fill: #9fc3ee; }
+.px-v { fill: #b9a3e3; }
+.px-p { fill: #f0a8c0; }
+
 /* ---- Page frame ---- */
 
 .page { max-width: 960px; margin: 0 auto; padding: 0 var(--space-6) var(--space-8); box-sizing: border-box; }

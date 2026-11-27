@@ -6,7 +6,7 @@ defmodule Giggleton.ResidentsTest do
   alias Giggleton.Residents.Resident
 
   test "the residents are in village order" do
-    assert Residents.ids() == [:giggly, :pica, :scales]
+    assert Residents.ids() == [:giggly, :pica, :scales, :loxo]
     assert Enum.map(Residents.all_residents(), & &1.id) == Residents.ids()
   end
 
@@ -26,10 +26,11 @@ defmodule Giggleton.ResidentsTest do
   end
 
   test "neighbours wrap round the ends of the street" do
-    [giggly, pica, scales] = Residents.all_residents()
+    [giggly, pica, scales, loxo] = Residents.all_residents()
 
-    assert Residents.neighbours(giggly) == {scales, pica}
+    assert Residents.neighbours(giggly) == {loxo, pica}
     assert Residents.neighbours(pica) == {giggly, scales}
+    assert Residents.neighbours(loxo) == {scales, giggly}
   end
 
   test "a resident's charts are inlined, as in a post" do

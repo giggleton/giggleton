@@ -7,7 +7,7 @@ defmodule GiggletonWeb.PixelArt do
   same-thread stitches, so a 24×24 resident is a few dozen rects rather than hundreds. Each
   run's class names its thread token in `stitch.css`, so the art follows the site theme, except
   `d` and `l`, which stay dark and light in both themes for a resident whose colours are who
-  they are, such as the magpie.
+  they are, such as the magpie, and the moth's pastels `u`, `v` and `p`, which stay the same.
   """
   use Phoenix.Component
 
@@ -21,7 +21,10 @@ defmodule GiggletonWeb.PixelArt do
     ?g => "px-g",
     ?r => "px-r",
     ?d => "px-d",
-    ?l => "px-l"
+    ?l => "px-l",
+    ?u => "px-u",
+    ?v => "px-v",
+    ?p => "px-p"
   }
 
   patterns =

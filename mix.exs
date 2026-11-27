@@ -63,11 +63,13 @@ defmodule Giggleton.MixProject do
       # Parses posts in place of Earmark, which is retired; see Giggleton.Markdown.
       {:mdex, "~> 0.14"},
       {:makeup_elixir, ">= 0.0.0"},
-      {:giggly, "~> 0.2.0"},
+      {:giggly, "~> 0.3.0"},
       # ggplot2's example datasets, which Giggly 0.2 moved to a package of their own.
-      {:gig_datasets, "~> 0.1.0"},
+      {:gig_datasets, "~> 0.2.0"},
       # Optional in Giggly; listed so charts can measure and draw text in the fonts Pica holds.
-      {:pica, "~> 0.1"}
+      {:pica, "~> 0.1"},
+      # Optional in Giggly; listed so maps can be drawn in projections other than longitude and latitude.
+      {:loxo, "~> 0.1"}
     ]
   end
 

@@ -66,7 +66,7 @@ defmodule GiggletonWeb.ResidentLiveTest do
   test "a resident's page links next door both ways", %{conn: conn} do
     {:ok, view, _html} = live(conn, ~p"/residents/giggly")
 
-    assert has_element?(view, "#before-resident[href='/residents/scales']")
+    assert has_element?(view, "#before-resident[href='/residents/loxo']")
     assert has_element?(view, "#next-resident[href='/residents/pica']")
     assert has_element?(view, "#all-residents[href='/residents']")
   end
