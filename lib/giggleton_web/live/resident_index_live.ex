@@ -38,8 +38,8 @@ defmodule GiggletonWeb.ResidentIndexLive do
         <h2 id="neighbors-heading" class="section-heading">The neighbors</h2>
         <p class="lede">
           Neighbors (plugins and accessories) are welcome to visit us any time, but they don't
-          make their home in Giggly. (Technically Pica is an optional package too, but she is an
-          honorary citizen).
+          make their home in Giggly. (Technically Pica and Loxo are optional packages too, but
+          they are honorary citizens).
         </p>
         <ul id="neighbors" class="residents">
           <li :for={neighbor <- @neighbors}>
